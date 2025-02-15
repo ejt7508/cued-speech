@@ -18,6 +18,10 @@
 
     <div id="result" class="result"></div>
 
+    <!-- debug
+    <button onclick="openForm()">Open Form</button>
+    -->
+
 
     <div class="form-popup" id="myForm">
         <form class="form-container">
@@ -25,10 +29,14 @@
             <h3>Please select the intended pronunciation for each word:</h1>
 
             <div id="formContent">
-
+                <!-- debug
+                <select name="ipaOptions" class="optionList" multiple="multiple" required>
+                    <option value="a">a</option>
+                </select>
+                -->
             </div>
         
-            <button type="button" class="btn" onclick="convertToCue(''); closeForm();">Submit</button>
+            <button type="button" class="btn" onclick="processInput(); closeForm();">Submit</button>
         </form>
     </div>
 

@@ -1,77 +1,129 @@
+var ipaList = [];
+var pronunciationData;
+
 // Fetch JSON data
 fetch('en_US.json')
 .then(response => response.json())
 .then(data => {
-    const pronunciationData = data.en_US[0];  // Store the pronunciation data
+    pronunciationData = data.en_US[0];  // Store the pronunciation data
 
     // Function to get the pronunciation for a specific word
     window.getPronunciation = function() {
-        let wordInput = document.getElementById('wordInput').value.toLowerCase().trim();
         let resultContainer = document.getElementById('result');
         // Clear content from previous usage
         resultContainer.innerHTML = "";
-        ipa = `${pronunciationData[wordInput.toLowerCase()]}`;
+
+        let accept = true;
+
+        ipaList = [];
+        let unknown = [];
+        let wordInput = document.getElementById('wordInput').value.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"").replace(/\s{2,}/g," ").trim().split(" ");
+        wordInput.every(element => {
+            element = element.toLowerCase();
+            ipa = `${pronunciationData[element]}`;
         
-        if (wordInput in pronunciationData) {
-            let ipa_options = ipa.split(', ');
-            if (ipa_options.length > 1) {
-                // Clear content from previous usage
-                document.getElementById("formContent").innerHTML = "";
-                // Make form visible
-                document.getElementById("myForm").style.display = "block";
-                document.getElementById("overlay").style.display = "block";
+            if (element in pronunciationData) {
+                let ipa_options = ipa.split(', ');
+                if (ipa_options.length > 1) {
+                    unknown.push(element);
 
-                let optionContainer = document.createElement("div");
-                optionContainer.classList.add("optionContainer");
-                let formContent = document.getElementById('formContent');
-
-                // Display word as label
-                let word = document.createElement("label");
-                word.setAttribute("for", "ipaOptions");
-                word.innerHTML = wordInput;
-                optionContainer.appendChild(word);
-
-                // Select tag for displaying options
-                let optionSelect = document.createElement("select");
-                optionSelect.name = "ipaOptions";
-                optionSelect.classList.add("optionList");
-                optionSelect.setAttribute("multiple", "multiple");
-                optionContainer.appendChild(optionSelect);
-
-                ipa_options.forEach(element => {
-                    // Create element for each ipa option and append to select
-                    let option = document.createElement("option");
-                    option.value = element;
-                    option.innerHTML = element;
-                    optionSelect.appendChild(option);
-                });
-                formContent.appendChild(optionContainer);
+                    ipaList.push("");
+                }
+                else {
+                    ipaList.push(ipa);
+                }
+                return true;
+            } else {
+                resultContainer.innerHTML = `<strong>Word "` + element + `" not found.</strong>`;
+                accept = false;
+                return false;
             }
-            else {
-                convertToCue(ipa);
-            }
-        } else {
-            resultContainer.innerHTML = `<strong>Word not found.</strong>`;
+        });
+        // If input is not acceptable, don't process
+        if (!accept) {
+            return;
         }
+        // Some pronunciations not known, need user input
+        if (unknown.length != 0) {
+            displayForm(unknown);
+        }
+        else {
+            processInput();
+        }
+
     };
 })
 .catch(error => console.error('Error fetching the JSON file:', error));
 
+function displayForm(unknown) {
+    // Clear content from previous usage
+    document.getElementById("formContent").innerHTML = "";
+    // Make form visible
+    document.getElementById("myForm").style.display = "block";
+    document.getElementById("overlay").style.display = "block";
+
+    let formContent = document.getElementById('formContent');
+
+    unknown.forEach(element => {
+        let optionContainer = document.createElement("div");
+        optionContainer.classList.add("optionContainer");
+        // Display word as label
+        let word = document.createElement("label");
+        word.setAttribute("for", "ipaOptions");
+        word.innerHTML = element;
+        optionContainer.appendChild(word);
+
+        // Select tag for displaying options
+        let optionSelect = document.createElement("select");
+        optionSelect.name = "ipaOptions";
+        optionSelect.classList.add("optionList");
+        optionSelect.setAttribute("multiple", "multiple");
+        optionSelect.setAttribute("required", "required");
+        optionContainer.appendChild(optionSelect);
+
+        let ipa_list = `${pronunciationData[element]}`;
+        let ipa_options = ipa_list.split(', ');
+        ipa_options.forEach(ipa => {
+            // Create element for each ipa option and append to select
+            let option = document.createElement("option");
+            option.value = ipa;
+            option.innerHTML = ipa;
+            optionSelect.appendChild(option);
+        });
+        formContent.appendChild(optionContainer);
+    });
+}
+function processInput() {
+    let formIndex = 0;
+    let completeIPA = "";
+    ipaList.forEach((element, index) => {
+        if (element == "") {
+            ipaList[index] = document.getElementsByClassName("optionList")[formIndex].value;
+            formIndex++;
+        }
+        completeIPA += ipaList[index].replaceAll('/', '') + " ";
+    });
+    completeIPA = "/" + completeIPA.slice(0, -1) + "/";
+    console.log(completeIPA);
+    convertToCue(completeIPA);
+}
 function closeForm() {
     document.getElementById("myForm").style.display = "none";
     document.getElementById("overlay").style.display = "none";
+}
+function openForm() {
+    document.getElementById("myForm").style.display = "block";
+    document.getElementById("overlay").style.display = "block";
 }
 
 function convertToCue(ipa) {
     if (ipa == "") {
         ipa = document.getElementsByClassName("optionList")[0].value;
     }
-    console.log(ipa);
     var cueNotation = [];
     let consonants = ["d", "p", "ʒ", "ð", "k", "v", "z", "s", "h", "ɹ", "hw", "b", "n", "m", "t", "f", "w", "ʃ", "ɫ", "θ", "dʒ", "g", "j", "ŋ", "tʃ"];
     let vowels = ["i", "ɝ", "ɔ", "u", "ɛ", "ʊ", "ɪ", "æ", "oʊ", "ɑ", "ə", "ɔɪ", "eɪ", "aɪ", "aʊ"];
-    ipa = ipa.replaceAll('/', '');
-    ipa = ipa.replaceAll("ˈ", "");
+    ipa = ipa.replaceAll(' ', '').replaceAll('/', '').replaceAll('ˈ', '');
     console.log(ipa);
     let symbol = "";
     let handshape = "";
@@ -150,7 +202,7 @@ function convertToCue(ipa) {
                     position = "t";
                     break;
                 case "oʊ":
-                case "a":
+                case "ɑ":
                     position = "sf";
                     break;
                 case "ə":
@@ -182,3 +234,27 @@ function convertToCue(ipa) {
     console.log(cueNotation);
     return cueNotation;
 }
+
+function getScrollbarWidth() {
+    let formContent = document.getElementById("formContent");
+    
+    // Ensure the element exists
+    if (!formContent) return 0;
+
+    // Create a temporary div with a scrollbar
+    let scrollDiv = document.createElement("div");
+    scrollDiv.style.visibility = "hidden";
+    scrollDiv.style.overflow = "scroll";
+    scrollDiv.style.width = "50px";
+    scrollDiv.style.height = "50px";
+    document.body.appendChild(scrollDiv);
+
+    // Calculate scrollbar width
+    let scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
+
+    // Remove the temporary div
+    document.body.removeChild(scrollDiv);
+
+    formContent.style.paddingLeft = scrollbarWidth + "px";
+}
+window.onload = getScrollbarWidth;

@@ -1,5 +1,5 @@
 body {
-    color:chartreuse;
+    /*color:chartreuse;*/
 }
 textarea {
     resize: none;
@@ -14,12 +14,11 @@ textarea {
     /* Center element */
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -60%);
+    transform: translate(-50%, -50%);
     background-color: white;
-    overflow:auto;
     width: 600px;
     max-width: 90%;
-    max-height: 400px;
+    max-height: 600px;
 }
 .overlay {
     display: none;
@@ -35,6 +34,7 @@ textarea {
     margin: auto;
     padding: 10px;
     max-width: 90%;
+    margin-bottom: 50px;
     /*display: flex;
     flex-direction: column;*/
 }
@@ -43,16 +43,13 @@ textarea {
     width: 90%;
 }
 .btn {
-    position: absolute;
-    bottom: 0;
     padding: 10px 20px;
-    margin-top: auto;
-    align-self: center;
     width: 100px;
     /* Center element */
-    top: 50%;
+    margin: 0;
+    position: absolute;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translateX(-50%);
 }
 .btnCancel {
     position: absolute;
@@ -62,11 +59,18 @@ textarea {
     height: 35px;
     font-size: 1.3em;
 }
+
+.optionContainer {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
 .optionList option{
     /* size of button */
-    width: 60px;
+    min-width: 50px;
     font-size: 1.2em;
-    padding: 10px 0;
+    padding: 10px;
 
     text-align: center;
     
@@ -99,15 +103,13 @@ textarea {
 }
 
 #formContent {
-    width: 300px;
-    height: 110px;
+    max-width: 400px;
     margin: auto;
-    margin-bottom: 50px;
-}
-#formContent > div{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    margin-bottom: 30px;
+    overflow:auto;
+    max-height: 300px;
+    /* scrollbar always takes up space */
+    scrollbar-gutter: stable;
 }
 #formContent label {
     text-align: center;
