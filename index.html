@@ -3,20 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Get Pronunciation for Word</title>
+    <title>Get Cue Notation for Sentence</title>
     <link rel="stylesheet" href="style.css">
     <script type="text/javascript" src="index.js"></script>
 </head>
 <body>
 
     <div class="overlay" id="overlay"></div>
-    <h1>Get Pronunciation for a Word</h1>
+    <h1>Get Cue Notation for Sentence</h1>
 
     <!-- Input field to search for a word -->
     <textarea id="wordInput" placeholder="Enter sentence here..." rows="3" cols="50"></textarea> <br>
-    <button onclick="getPronunciation()">Submit</button>
+    <button id="submit" onclick="getPronunciation()">Submit</button>
 
-    <div id="result" class="result"></div>
+    <div id="resultIPA" class="result"></div>
+    <div id="resultCued" class="result"></div>
 
     <!-- debug
     <button onclick="openForm()">Open Form</button>
