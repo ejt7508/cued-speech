@@ -8,7 +8,7 @@ fetch('en_US.json')
     pronunciationData = data.en_US[0];  // Store the pronunciation data
 
     // Function to get the pronunciation for a specific word
-    window.getPronunciation = function() {
+    window.getCuedSpeech = function() {
         let resultIPA = document.getElementById('resultIPA');
         let resultCued = document.getElementById('resultCued');
         // Clear content from previous usage
@@ -307,6 +307,15 @@ function getScrollbarWidth() {
 
     formContent.style.paddingLeft = scrollbarWidth + "px";
 }
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("wordInput").addEventListener("keypress", function (event) {
+        if (event.key === "Enter" && !event.shiftKey) {
+            event.preventDefault(); // Prevents new line in the textarea
+            document.getElementById("submit").click()
+        }
+    });
+});
+
 window.onload = getScrollbarWidth;
 
 function processForm() {
