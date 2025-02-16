@@ -17,8 +17,9 @@ fetch('en_US.json')
 
         ipaList = [];
         let unknown = [];
+        let unknownIndices = [];
         let wordInput = document.getElementById('wordInput').value.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"").replace(/\s{2,}/g," ").trim().split(" ");
-        wordInput.every(element => {
+        wordInput.every((element, index) => {
             element = element.toLowerCase();
             ipa = `${pronunciationData[element]}`;
         
@@ -26,6 +27,7 @@ fetch('en_US.json')
                 let ipa_options = ipa.split(', ');
                 if (ipa_options.length > 1) {
                     unknown.push(element);
+                    unknownIndices.push(index);
 
                     ipaList.push("");
                 }
@@ -45,7 +47,7 @@ fetch('en_US.json')
         }
         // Some pronunciations not known, need user input
         if (unknown.length != 0) {
-            displayForm(unknown);
+            displayForm(unknown, wordInput, unknownIndices);
         }
         else {
             processInput();
@@ -55,7 +57,7 @@ fetch('en_US.json')
 })
 .catch(error => console.error('Error fetching the JSON file:', error));
 
-function displayForm(unknown) {
+function displayForm(unknown, wordInput, unknownIndices) {
     // Clear content from previous usage
     document.getElementById("formContent").innerHTML = "";
     // Make form visible
@@ -64,18 +66,32 @@ function displayForm(unknown) {
 
     let formContent = document.getElementById('formContent');
 
-    unknown.forEach(element => {
+    unknown.forEach((element, index) => {
         let optionContainer = document.createElement("div");
         optionContainer.classList.add("optionContainer");
+
+        let unknownIndex = unknownIndices[index];
+        let labelText = "";
+        if (unknownIndex == 0) {
+            let nextWords = wordInput.slice(1, Math.min(3, wordInput.length)).join(" ");
+            labelText = `<strong>${element}</strong> ${nextWords}`;
+        }
+        else if (unknownIndex == wordInput.length - 1) {
+            let prevWords = wordInput.slice(-Math.min(3, wordInput.length - 1), wordInput.length).join(" ");
+            labelText = `${prevWords} <strong>${element}</strong>`;
+        }
+        else {
+            labelText = wordInput[unknownIndex - 1] + ` <strong>${element}</strong> ` + wordInput[unknownIndex + 1];
+        }
         // Display word as label
-        let word = document.createElement("label");
-        word.setAttribute("for", "ipaOptions");
-        word.innerHTML = element;
-        optionContainer.appendChild(word);
+        let wordLabel = document.createElement("label");
+        wordLabel.setAttribute("for", "ipaOptions");
+        wordLabel.innerHTML = labelText;
+        optionContainer.appendChild(wordLabel);
 
         // Select tag for displaying options
         let optionSelect = document.createElement("select");
-        optionSelect.name = "ipaOptions";
+        optionSelect.name = element;
         optionSelect.classList.add("optionList");
         optionSelect.setAttribute("multiple", "multiple");
         optionSelect.setAttribute("required", "required");
@@ -88,8 +104,19 @@ function displayForm(unknown) {
             let option = document.createElement("option");
             option.value = ipa;
             option.innerHTML = ipa;
+
+            // Double click to make same words have the same pronunciation
+            option.addEventListener("dblclick", () => {
+                console.log("double click");
+                let elements = document.getElementsByName(element);
+                elements.forEach(element => {
+                    element.value = option.value;
+                });
+            });
+
             optionSelect.appendChild(option);
         });
+
         formContent.appendChild(optionContainer);
     });
 }
@@ -275,8 +302,5 @@ function processForm() {
     if (valid) {
         processInput();
         closeForm();
-    }
-    else {
-        alert("Please select an option for each word.");
     }
 }
