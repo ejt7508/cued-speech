@@ -66,6 +66,9 @@ textarea {
     flex-direction: column;
     gap: 10px;
 }
+.error {
+    color: red;
+}
 .optionList option{
     /* size of button */
     min-width: 50px;

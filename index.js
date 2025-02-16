@@ -258,3 +258,25 @@ function getScrollbarWidth() {
     formContent.style.paddingLeft = scrollbarWidth + "px";
 }
 window.onload = getScrollbarWidth;
+
+function processForm() {
+    let allSelects = document.querySelectorAll("#formContent select");
+    let valid = true;
+
+    allSelects.forEach(select => {
+        if (select.value == "") {
+            valid = false;
+            select.classList.add("error");
+        }
+        else {
+            select.classList.remove("error");
+        }
+    });
+    if (valid) {
+        processInput();
+        closeForm();
+    }
+    else {
+        alert("Please select an option for each word.");
+    }
+}
