@@ -6,6 +6,7 @@
     <title>Get Cue Notation for Sentence</title>
     <link rel="stylesheet" href="style.css">
     <script type="text/javascript" src="index.js"></script>
+    <script type="text/javascript" src="display.js"></script>
 </head>
 <body>
 
@@ -19,9 +20,9 @@
     <div id="resultIPA" class="result"></div>
     <div id="resultCued" class="result"></div>
 
-    <!-- debug
+<!--
     <button onclick="openForm()">Open Form</button>
-    -->
+-->
 
 
     <div class="form-popup" id="myForm">
@@ -30,14 +31,23 @@
             <h3>Please select the intended pronunciation for each word:</h1>
 
             <div id="formContent">
-                <!-- debug
-                <select name="ipaOptions" class="optionList" multiple="multiple" required>
-                    <option value="a">a</option>
-                </select>
-                -->
+
+                <ul class="donate-now">
+                    <label>a</label>
+                    <li>
+                      <input type="radio" id="a" name="amount" />
+                      <label for="a25">a</label>
+                    </li>
+                    <li>
+                      <input type="radio" id="b" name="amount" />
+                      <label for="a50">b</label>
+                    </li>
+                    <li>
+                </ul>
+
             </div>
         
-            <button type="button" class="btn" onclick="processForm()">Submit</button>
+            <button type="button" id="formSubmit" class="btn" onclick="processForm()">Submit</button>
         </form>
     </div>
 

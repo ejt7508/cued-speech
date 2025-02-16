@@ -66,44 +66,6 @@ textarea {
     flex-direction: column;
     gap: 10px;
 }
-.error {
-    color: red;
-}
-.optionList option{
-    /* size of button */
-    min-width: 50px;
-    font-size: 1.2em;
-    padding: 10px;
-
-    text-align: center;
-    
-    /* spacing between buttons */
-    margin: 0px 10px 0px 10px;
-
-    /* buttons are next to eachother */
-    display: inline-block;
-    
-    cursor: pointer;
-    border:rgb(0, 0, 0) solid 1px;
-    border-radius: 5px;
-}
-.optionList option:checked {
-    background: #c8c8c8;
-    box-shadow: 0 0 10px 100px #c8c8c8 inset;
-}
-
-.optionList{
-    margin: auto;
-    border: none;
-    overflow: hidden;
-    height: 3.5em;
-}
-.optionList::-moz-focus-inner {
-    border: 0;
-}
-.optionList:focus {
-    outline: none;
-}
 
 #formContent {
     max-width: 400px;
@@ -116,4 +78,36 @@ textarea {
 }
 #formContent label {
     text-align: center;
+}
+
+.ipaButton {
+    padding: 10px 10px;
+    border: 1px solid #ccc;
+    background-color: #f8f8f8;
+    cursor: pointer;
+    transition: 0.2s;
+    min-width: 100px;
+}
+.ipaButton:hover {
+    background-color: #e0e0e0;
+}
+.ipaButton.selected {
+    background-color: #007bff;
+    color: white;
+    border-color: #0056b3;
+}
+.buttonGroup {
+    /* Center buttons */
+    margin: auto;
+
+    /* Gap between buttons */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+}
+.error .ipaButton{
+    color: red;
+}
+.error.btn {
+    color:rgba(0, 0, 0, 0.384)
 }

@@ -81,73 +81,13 @@ fetch('en_US.json')
 })
 .catch(error => console.error('Error fetching the JSON file:', error));
 
-function displayForm(unknown, wordInput, unknownIndices, unknownOptions) {
-    // Clear content from previous usage
-    document.getElementById("formContent").innerHTML = "";
-    // Make form visible
-    document.getElementById("myForm").style.display = "block";
-    document.getElementById("overlay").style.display = "block";
 
-    let formContent = document.getElementById('formContent');
-
-    unknown.forEach((element, index) => {
-        let optionContainer = document.createElement("div");
-        optionContainer.classList.add("optionContainer");
-
-        let unknownIndex = unknownIndices[index];
-        let labelText = "";
-        if (unknownIndex == 0) {
-            let nextWords = wordInput.slice(1, Math.min(3, wordInput.length)).join(" ");
-            labelText = `<strong>${element}</strong> ${nextWords}`;
-        }
-        else if (unknownIndex == wordInput.length - 1) {
-            let prevWords = wordInput.slice(-Math.min(3, wordInput.length - 1), wordInput.length).join(" ");
-            labelText = `${prevWords} <strong>${element}</strong>`;
-        }
-        else {
-            labelText = wordInput[unknownIndex - 1] + ` <strong>${element}</strong> ` + wordInput[unknownIndex + 1];
-        }
-        // Display word as label
-        let wordLabel = document.createElement("label");
-        wordLabel.setAttribute("for", "ipaOptions");
-        wordLabel.innerHTML = labelText;
-        optionContainer.appendChild(wordLabel);
-
-        // Select tag for displaying options
-        let optionSelect = document.createElement("select");
-        optionSelect.name = element;
-        optionSelect.classList.add("optionList");
-        optionSelect.setAttribute("multiple", "multiple");
-        optionSelect.setAttribute("required", "required");
-        optionContainer.appendChild(optionSelect);
-
-        unknownOptions[index].forEach(ipa => {
-            // Create element for each ipa option and append to select
-            let option = document.createElement("option");
-            option.value = ipa;
-            option.innerHTML = ipa;
-
-            // Double click to make same words have the same pronunciation
-            option.addEventListener("dblclick", () => {
-                console.log("double click");
-                let elements = document.getElementsByName(element);
-                elements.forEach(element => {
-                    element.value = option.value;
-                });
-            });
-
-            optionSelect.appendChild(option);
-        });
-
-        formContent.appendChild(optionContainer);
-    });
-}
 function processInput() {
     let formIndex = 0;
     let completeIPA = "";
     ipaList.forEach((element, index) => {
         if (element == "") {
-            ipaList[index] = document.getElementsByClassName("optionList")[formIndex].value;
+            ipaList[index] = document.getElementsByClassName("buttonGroup")[formIndex].querySelector(".ipaButton.selected").dataset.value;
             formIndex++;
         }
         completeIPA += ipaList[index].replaceAll('/', '') + " ";
@@ -156,14 +96,6 @@ function processInput() {
     console.log(completeIPA);
     document.getElementById("resultIPA").innerHTML = completeIPA;
     convertToCue(completeIPA);
-}
-function closeForm() {
-    document.getElementById("myForm").style.display = "none";
-    document.getElementById("overlay").style.display = "none";
-}
-function openForm() {
-    document.getElementById("myForm").style.display = "block";
-    document.getElementById("overlay").style.display = "block";
 }
 
 function convertToCue(ipa) {
@@ -285,54 +217,23 @@ function convertToCue(ipa) {
     return cueNotation;
 }
 
-function getScrollbarWidth() {
-    let formContent = document.getElementById("formContent");
-    
-    // Ensure the element exists
-    if (!formContent) return 0;
-
-    // Create a temporary div with a scrollbar
-    let scrollDiv = document.createElement("div");
-    scrollDiv.style.visibility = "hidden";
-    scrollDiv.style.overflow = "scroll";
-    scrollDiv.style.width = "50px";
-    scrollDiv.style.height = "50px";
-    document.body.appendChild(scrollDiv);
-
-    // Calculate scrollbar width
-    let scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
-
-    // Remove the temporary div
-    document.body.removeChild(scrollDiv);
-
-    formContent.style.paddingLeft = scrollbarWidth + "px";
-}
-document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById("wordInput").addEventListener("keypress", function (event) {
-        if (event.key === "Enter" && !event.shiftKey) {
-            event.preventDefault(); // Prevents new line in the textarea
-            document.getElementById("submit").click()
-        }
-    });
-});
-
-window.onload = getScrollbarWidth;
-
 function processForm() {
-    let allSelects = document.querySelectorAll("#formContent select");
     let valid = true;
-
-    allSelects.forEach(select => {
-        if (select.value == "") {
+    let allWords = document.querySelectorAll(".optionContainer");
+    for (let word of allWords) {
+        if (!word.querySelector(".ipaButton.selected")) {
+            word.querySelector(".buttonGroup").classList.add("error");
+            document.getElementById("formSubmit").classList.add("error");
             valid = false;
-            select.classList.add("error");
         }
         else {
-            select.classList.remove("error");
+            word.querySelector(".buttonGroup").classList.remove("error");
+            document.getElementById("formSubmit").classList.remove("error");
         }
-    });
+    }
     if (valid) {
         processInput();
         closeForm();
     }
 }
+
