@@ -2,9 +2,7 @@ function displayForm(unknown, wordInput, unknownIndices, unknownOptions) {
     // Clear content from previous usage
     document.getElementById("formContent").innerHTML = "";
     // Make form visible
-    document.getElementById("myForm").style.display = "block";
-    document.getElementById("overlay").style.display = "block";
-    toggleTabAccess(true);
+    openForm();
 
     let formContent = document.getElementById('formContent');
 
@@ -27,7 +25,7 @@ function displayForm(unknown, wordInput, unknownIndices, unknownOptions) {
         }
 
         // Display word as label
-        let wordLabel = document.createElement("label");
+        let wordLabel = document.createElement("p");
         wordLabel.innerHTML = labelText;
         optionContainer.appendChild(wordLabel);
 
@@ -85,6 +83,11 @@ function closeForm() {
     document.getElementById("overlay").style.display = "none";
     toggleTabAccess(false);
 }
+function openForm() {
+    document.getElementById("myForm").style.display = "block";
+    document.getElementById("overlay").style.display = "block";
+    toggleTabAccess(true);
+}
 
 // Disable/enable tabbing below overlay
 function toggleTabAccess(disable) {
@@ -128,6 +131,8 @@ function getScrollbarWidth() {
     formContent.style.paddingLeft = scrollbarWidth + "px";
 }
 
+window.onload = getScrollbarWidth;
+
 // Allow user to press enter to submit
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("wordInput").addEventListener("keypress", function (event) {
@@ -136,6 +141,11 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("submit").click()
         }
     });
+    document.getElementById("wordInput").addEventListener("input", function (event) {
+        let button = document.getElementById("submit");
+        if (button.innerHTML != "Submit") {
+            button.innerHTML = "Submit";
+            button.onclick = getCuedSpeech;
+        }
+    });
 });
-
-window.onload = getScrollbarWidth;

@@ -81,8 +81,9 @@ textarea {
 #formContent strong {
     font-size: 1.2em;
 }
-#formContent label {
+#formContent p {
     text-align: center;
+    margin: 0;
 }
 
 .ipaButton {

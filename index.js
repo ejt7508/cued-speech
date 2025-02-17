@@ -1,5 +1,7 @@
 var ipaList = [];
 var pronunciationData;
+var unknown = [];
+var wordInput = [];
 
 // Fetch JSON data
 fetch('en_US.json')
@@ -18,10 +20,10 @@ fetch('en_US.json')
         let accept = true;
 
         ipaList = [];
-        let unknown = [];
+        unknown = [];
         let unknownIndices = [];
-        let unknownOptions = [];
-        let wordInput = document.getElementById('wordInput').value.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"").replace(/\s{2,}/g," ").trim().split(" ");
+        unknownOptions = [];
+        wordInput = document.getElementById('wordInput').value.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"").replace(/\s{2,}/g," ").trim().split(" ");
         wordInput.every((element, index) => {
             element = element.toLowerCase();
             ipa = `${pronunciationData[element]}`;
@@ -86,7 +88,8 @@ function processInput() {
     let formIndex = 0;
     let completeIPA = "";
     ipaList.forEach((element, index) => {
-        if (element == "") {
+        // IPA hasn't been set OR is being changed through form
+        if (element == "" || unknown.includes(wordInput[index])) {
             ipaList[index] = document.getElementsByClassName("buttonGroup")[formIndex].querySelector(".ipaButton.selected").dataset.value;
             formIndex++;
         }
@@ -99,9 +102,6 @@ function processInput() {
 }
 
 function convertToCue(ipa) {
-    if (ipa == "") {
-        ipa = document.getElementsByClassName("optionList")[0].value;
-    }
     var cueNotation = [];
     let consonants = ["d", "p", "ʒ", "ð", "k", "v", "z", "s", "h", "ɹ", "hw", "b", "n", "m", "t", "f", "w", "ʃ", "ɫ", "θ", "dʒ", "g", "j", "ŋ", "tʃ"];
     let vowels = ["i", "ɝ", "ɔ", "u", "ɛ", "ʊ", "ɪ", "æ", "oʊ", "ɑ", "ə", "ɔɪ", "eɪ", "aɪ", "aʊ"];
@@ -234,6 +234,9 @@ function processForm() {
     if (valid) {
         processInput();
         closeForm();
+        let submitButton = document.getElementById("submit");
+        submitButton.innerHTML = "Change Pronunciation";
+        submitButton.onclick = openForm;
     }
 }
 
