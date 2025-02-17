@@ -19,7 +19,7 @@ function displayForm(unknown, wordInput, unknownIndices, unknownOptions) {
             labelText = `<strong>${element}</strong> ${nextWords}`;
         }
         else if (unknownIndex == wordInput.length - 1) {
-            let prevWords = wordInput.slice(-Math.min(3, wordInput.length - 1), wordInput.length - 1).join(" ");
+            let prevWords = wordInput.slice(-Math.min(3, wordInput.length + 1), wordInput.length - 1).join(" ");
             labelText = `${prevWords} <strong>${element}</strong>`;
         }
         else {

@@ -1,5 +1,6 @@
 body {
     /*color:chartreuse;*/
+    height: 100%;
 }
 textarea {
     resize: none;
@@ -18,7 +19,7 @@ textarea {
     background-color: white;
     width: 600px;
     max-width: 90%;
-    max-height: 600px;
+    max-height: 90vh;
 }
 .overlay {
     display: none;
@@ -68,13 +69,17 @@ textarea {
 }
 
 #formContent {
-    max-width: 400px;
+    max-width: 100%;
     margin: auto;
+    margin-top: 30px;
     margin-bottom: 30px;
     overflow:auto;
-    max-height: 300px;
+    max-height: 52vh;
     /* scrollbar always takes up space */
     scrollbar-gutter: stable;
+}
+#formContent strong {
+    font-size: 1.2em;
 }
 #formContent label {
     text-align: center;
@@ -100,10 +105,12 @@ textarea {
     /* Center buttons */
     margin: auto;
 
+    margin-bottom: 20px;
+
     /* Gap between buttons */
     display: flex;
     flex-wrap: wrap;
-    gap: 50px;
+    gap: 20px;
 }
 .error .ipaButton{
     color: red;
