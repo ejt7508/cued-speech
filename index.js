@@ -109,125 +109,76 @@ function convertToCue(ipa) {
     let consonants = ["d", "p", "ʒ", "ð", "k", "v", "z", "s", "h", "ɹ", "hw", "b", "n", "m", "t", "f", "w", "ʃ", "ɫ", "θ", "dʒ", "ɡ", "j", "ŋ", "tʃ"];
     let vowels = ["i", "ɝ", "ɔ", "u", "ɛ", "ʊ", "ɪ", "æ", "oʊ", "ɑ", "ə", "ɔɪ", "eɪ", "aɪ", "aʊ", "o", "e", "a"];
     ipa = ipa.replaceAll(' ', '').replaceAll('/', '').replaceAll('ˈ', '');
-    let symbol = "";
     let handshape = "";
     let position = "";
-    for(let i = 0; i < ipa.length; i++) {
-        symbol += ipa[i];
-        
-        if (consonants.includes(symbol) || consonants.includes(ipa[i])) {
-            // We have seen two consonants and they are not a pair
-            if (handshape != "" && position == "" && !consonants.includes(symbol)) {
-                position = "s";
+    var phonemes = [];
+    let i = 0;
+    let phonemeIndex = 0;
+
+    while(i < ipa.length) {
+        let symbol = ipa[i];
+        if (i < ipa.length - 1) {
+            let nextSymbol = ipa[i] + ipa[i + 1];
+            if (consonants.includes(nextSymbol) || vowels.includes(nextSymbol)) {
+                symbol = nextSymbol;
+                i++;
             }
-            // We have seen a valid pairing
-            if (handshape != "" && position != "") {
+        }
+        if (consonants.includes(symbol) && handshape != "") {
+            phonemeIndex++;
+        }
+        if (phonemes[phonemeIndex] == null) {
+            phonemes[phonemeIndex] = symbol;
+        }
+        else {
+            console.log("add " + symbol);
+            phonemes[phonemeIndex] += symbol;
+        }
+
+        if (consonants.includes(symbol)) {
+            // Two consonants in a row
+            if (handshape != "") {
+                position = "s";
                 cueNotation.push(handshape + position);
                 handshape = "";
                 position = "";
-                symbol = ipa[i];
             }
             switch(symbol) {
-                case "d":
-                case "p":
-                case "ʒ":
-                    handshape = "1";
-                    break;
-                case "ð":
-                case "k":
-                case "v":
-                case "z":
-                    handshape = "2";
-                    break;
-                case "s":
-                case "h":
-                case "ɹ":
-                    handshape = "3";
-                    break;
-                case "hw":
-                case "b":
-                case "n":
-                    handshape = "4";
-                    break;
-                case "m":
-                case "t":
-                case "f":
-                    handshape = "5";
-                    break;
-                case "w":
-                case "ʃ":
-                case "ɫ":
-                    handshape = "6";
-                    break;
-                case "θ":
-                case "dʒ":
-                case "ɡ":
-                    handshape = "7";
-                    break;
-                case "j":
-                case "ŋ":
-                case "tʃ":
-                    handshape = "8";
-                    break;
+                case "d": case "p": case "ʒ": handshape = "1"; break;
+                case "ð": case "k": case "v": case "z": handshape = "2"; break;
+                case "s": case "h": case "ɹ": handshape = "3"; break;
+                case "hw": case "b": case "n": handshape = "4"; break;
+                case "m": case "t": case "f": handshape = "5"; break;
+                case "w": case "ʃ": case "ɫ": handshape = "6"; break;
+                case "θ": case "dʒ": case "ɡ": handshape = "7"; break;
+                case "j": case "ŋ": case "tʃ": handshape = "8"; break;
             }
         }
-        else if (vowels.includes(symbol) || vowels.includes(ipa[i])) {
+        else if (vowels.includes(symbol)) {
+            switch(symbol) {
+                case "i": case "ɝ": position = "m"; break;
+                case "ɔ": case "u": case "ɛ": position = "c"; break;
+                case "ʊ": case "ɪ": case "æ": position = "t"; break;
+                case "oʊ": case "ɑ": position = "sf"; break;
+                case "ə": position = "sd"; break;
+                case "ɔɪ": case "eɪ": position = "c-5t"; break;
+                case "aɪ": case "aʊ": position = "s-5t"; break;
+            }
             if (handshape == "") {
                 handshape = "5";
             }
-            else {
-                // Last character was a consonant, don't need to keep track of it
-                if (consonants.includes(ipa[i - 1])) {
-                    symbol = ipa[i];
-                }
-            }
-            switch(symbol) {
-                case "i":
-                case "ɝ":
-                    position = "m";
-                    break;
-                case "ɔ":
-                case "u":
-                case "ɛ":
-                    position = "c";
-                    break;
-                case "ʊ":
-                case "ɪ":
-                case "æ":
-                    position = "t";
-                    break;
-                case "oʊ":
-                case "ɑ":
-                    position = "sf";
-                    break;
-                case "ə":
-                    position = "sd";
-                    break;
-                case "ɔɪ":
-                case "eɪ":
-                    position = "c-5t";
-                    break;
-                case "aɪ":
-                case "aʊ":
-                    position = "s-5t";
-                    break;
-            }
+            cueNotation.push(handshape + position);
+            handshape = "";
+            position = "";
+            phonemeIndex++;
         }
-    }
-    if (handshape != "" && position != "") {
-        cueNotation.push(handshape + position);
-        handshape = "";
-        position = "";
+        i++;
     }
     if (handshape != "") {
-        position = "s";
-        cueNotation.push(handshape + position);
-    }
-    else if (position != "") {
-        handshape = "5";
-        cueNotation.push(handshape + position);
+        cueNotation.push(handshape + "s");
     }
     document.getElementById("resultCued").innerHTML = cueNotation.join(" ");
+    console.log(phonemes);
     console.log(cueNotation);
     return cueNotation;
 }
