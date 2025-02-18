@@ -23,7 +23,10 @@ fetch('en_US.json')
         unknown = [];
         let unknownIndices = [];
         unknownOptions = [];
-        wordInput = document.getElementById('wordInput').value.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"").replace(/\s{2,}/g," ").trim().split(" ");
+        wordInput = document.getElementById('wordInput').value.replace(/[.,\/#!?$%\^&\*;:{}=\-_`~()]/g,"").replace(/\s{2,}/g," ").replace(/\r?\n/g, " ").trim().split(" ");
+        if (wordInput == "") {
+            return;
+        }
         wordInput.every((element, index) => {
             element = element.toLowerCase();
             ipa = `${pronunciationData[element]}`;
@@ -103,23 +106,28 @@ function processInput() {
 
 function convertToCue(ipa) {
     var cueNotation = [];
-    let consonants = ["d", "p", "ʒ", "ð", "k", "v", "z", "s", "h", "ɹ", "hw", "b", "n", "m", "t", "f", "w", "ʃ", "ɫ", "θ", "dʒ", "g", "j", "ŋ", "tʃ"];
-    let vowels = ["i", "ɝ", "ɔ", "u", "ɛ", "ʊ", "ɪ", "æ", "oʊ", "ɑ", "ə", "ɔɪ", "eɪ", "aɪ", "aʊ"];
+    let consonants = ["d", "p", "ʒ", "ð", "k", "v", "z", "s", "h", "ɹ", "hw", "b", "n", "m", "t", "f", "w", "ʃ", "ɫ", "θ", "dʒ", "ɡ", "j", "ŋ", "tʃ"];
+    let vowels = ["i", "ɝ", "ɔ", "u", "ɛ", "ʊ", "ɪ", "æ", "oʊ", "ɑ", "ə", "ɔɪ", "eɪ", "aɪ", "aʊ", "o", "e", "a"];
     ipa = ipa.replaceAll(' ', '').replaceAll('/', '').replaceAll('ˈ', '');
     let symbol = "";
     let handshape = "";
     let position = "";
     for(let i = 0; i < ipa.length; i++) {
         symbol += ipa[i];
-        if (consonants.includes(ipa[i])) {
-            symbol = "";
-            if (handshape != "") {
+        
+        if (consonants.includes(symbol) || consonants.includes(ipa[i])) {
+            // We have seen two consonants and they are not a pair
+            if (handshape != "" && position == "" && !consonants.includes(symbol)) {
                 position = "s";
+            }
+            // We have seen a valid pairing
+            if (handshape != "" && position != "") {
                 cueNotation.push(handshape + position);
                 handshape = "";
                 position = "";
+                symbol = ipa[i];
             }
-            switch(ipa[i]) {
+            switch(symbol) {
                 case "d":
                 case "p":
                 case "ʒ":
@@ -153,7 +161,7 @@ function convertToCue(ipa) {
                     break;
                 case "θ":
                 case "dʒ":
-                case "g":
+                case "ɡ":
                     handshape = "7";
                     break;
                 case "j":
@@ -163,9 +171,15 @@ function convertToCue(ipa) {
                     break;
             }
         }
-        else if (vowels.includes(symbol)) {
+        else if (vowels.includes(symbol) || vowels.includes(ipa[i])) {
             if (handshape == "") {
                 handshape = "5";
+            }
+            else {
+                // Last character was a consonant, don't need to keep track of it
+                if (consonants.includes(ipa[i - 1])) {
+                    symbol = ipa[i];
+                }
             }
             switch(symbol) {
                 case "i":
@@ -198,11 +212,12 @@ function convertToCue(ipa) {
                     position = "s-5t";
                     break;
             }
-            cueNotation.push(handshape + position);
-            handshape = "";
-            position = "";
-            symbol = "";
         }
+    }
+    if (handshape != "" && position != "") {
+        cueNotation.push(handshape + position);
+        handshape = "";
+        position = "";
     }
     if (handshape != "") {
         position = "s";
