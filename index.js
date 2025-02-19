@@ -131,7 +131,6 @@ function convertToCue(ipa) {
             phonemes[phonemeIndex] = symbol;
         }
         else {
-            console.log("add " + symbol);
             phonemes[phonemeIndex] += symbol;
         }
 
@@ -159,7 +158,7 @@ function convertToCue(ipa) {
                 case "i": case "ɝ": position = "m"; break;
                 case "ɔ": case "u": case "ɛ": position = "c"; break;
                 case "ʊ": case "ɪ": case "æ": position = "t"; break;
-                case "oʊ": case "ɑ": position = "sf"; break;
+                case "oʊ": case "ɑ": case "o": position = "sf"; break;
                 case "ə": position = "sd"; break;
                 case "ɔɪ": case "eɪ": position = "c-5t"; break;
                 case "aɪ": case "aʊ": position = "s-5t"; break;
@@ -178,7 +177,6 @@ function convertToCue(ipa) {
         cueNotation.push(handshape + "s");
     }
     document.getElementById("resultCued").innerHTML = cueNotation.join(" ");
-    console.log(phonemes);
     console.log(cueNotation);
     return cueNotation;
 }
