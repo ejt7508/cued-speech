@@ -5,13 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Get Cue Notation for Sentence</title>
     <link rel="stylesheet" href="style.css">
+
+    <!-- JavaScript -->
     <script type="text/javascript" src="index.js"></script>
     <script type="text/javascript" src="display.js"></script>
+    <script type="text/javascript" src="animation.js"></script>
 
     <!-- Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://kit.fontawesome.com/64824a9b49.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -19,7 +25,13 @@
     <h1>Get Cue Notation for Sentence</h1>
 
     <div id="window">
-        <span>test</span>
+        <span id="window-text">test</span>
+    </div>
+    <div id="window-buttons">
+        <i class="fa-solid fa-backward"></i>
+        <i class="fa-solid fa-backward-step"></i>
+        <i id="pause" class="fa-solid fa-pause" onclick="pause(this)"></i>
+        <i class="fa-solid fa-forward-step"></i>
     </div>
     <div class="result" id="result">
         <p id="resultCued"></p>

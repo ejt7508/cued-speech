@@ -3,8 +3,11 @@ var pronunciationData;
 var unknown = [];
 var wordInput = [];
 
+var cueNotation = [];
+var phonemes = [];
+
 // Fetch JSON data
-fetch('en_US.json')
+fetch('en_US copy.json')
 .then(response => response.json())
 .then(data => {
     pronunciationData = data.en_US[0];  // Store the pronunciation data
@@ -102,16 +105,21 @@ function processInput() {
     console.log(completeIPA);
     document.getElementById("resultIPA").innerHTML = completeIPA;
     convertToCue(completeIPA);
+
+    // Start animation
+    playing = true;
+    animation_index = 0;
+    startAnimation();
 }
 
 function convertToCue(ipa) {
-    var cueNotation = [];
+    cueNotation = [];
     let consonants = ["d", "p", "ʒ", "ð", "k", "v", "z", "s", "h", "ɹ", "hw", "b", "n", "m", "t", "f", "w", "ʃ", "ɫ", "θ", "dʒ", "ɡ", "j", "ŋ", "tʃ"];
     let vowels = ["i", "ɝ", "ɔ", "u", "ɛ", "ʊ", "ɪ", "æ", "oʊ", "ɑ", "ə", "ɔɪ", "eɪ", "aɪ", "aʊ", "o", "e", "a"];
-    ipa = ipa.replaceAll(' ', '').replaceAll('/', '').replaceAll('ˈ', '');
+    ipa = ipa.replaceAll('/', '').replaceAll('ˈ', '');
     let handshape = "";
     let position = "";
-    var phonemes = [];
+    phonemes = [];
     let i = 0;
     let phonemeIndex = 0;
 
