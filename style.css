@@ -22,6 +22,7 @@ h1 {
 }
 #window span {
     margin: auto;
+    padding: 10px;
 }
 #window-buttons {
     margin: auto;

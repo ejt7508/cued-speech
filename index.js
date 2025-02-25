@@ -16,9 +16,17 @@ fetch('en_US copy.json')
     window.getCuedSpeech = function() {
         let resultIPA = document.getElementById('resultIPA');
         let resultCued = document.getElementById('resultCued');
+        let windowText = document.getElementById('window-text');
         // Clear content from previous usage
         resultIPA.innerHTML = "";
         resultCued.innerHTML = "";
+        windowText.innerHTML = "";
+        clearInterval(intervalId);
+
+        let icon = document.getElementById('pause');
+        icon.classList.remove("fa-play");
+        icon.classList.add("fa-pause");
+        icon.setAttribute("onClick", "pause(this)");
 
         let accept = true;
 

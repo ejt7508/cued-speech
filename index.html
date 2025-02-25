@@ -25,13 +25,13 @@
     <h1>Get Cue Notation for Sentence</h1>
 
     <div id="window">
-        <span id="window-text">test</span>
+        <span id="window-text"></span>
     </div>
     <div id="window-buttons">
-        <i class="fa-solid fa-backward"></i>
-        <i class="fa-solid fa-backward-step"></i>
+        <i class="fa-solid fa-backward" onclick="restart()"></i>
+        <i class="fa-solid fa-backward-step" onclick="previous()"></i>
         <i id="pause" class="fa-solid fa-pause" onclick="pause(this)"></i>
-        <i class="fa-solid fa-forward-step"></i>
+        <i class="fa-solid fa-forward-step" onclick="next()"></i>
     </div>
     <div class="result" id="result">
         <p id="resultCued"></p>
