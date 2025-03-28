@@ -39,8 +39,9 @@ fetch('en_US copy.json')
         let unknownIndices = [];
         unknownOptions = [];
 
-        wordInput = document.getElementById('wordInput').value.replaceAll(/[,\/#!?$%\^&\*;:{}=_`~()]/g,"").replaceAll(/\s{2,}/g," ").replaceAll(/\r?\n/g, " ").trim();     
-        wordInput = wordInput.replaceAll("[?!]", ".");
+        wordInput = document.getElementById('wordInput').value.replaceAll(/[,\/#$%\^&\*;:{}=_`~()]/g,"").replaceAll(/\s{2,}/g," ").replaceAll(/\r?\n/g, " ").trim();     
+        wordInput = wordInput.replaceAll("?", ".");
+        wordInput = wordInput.replaceAll("!", ".");
 
         // Remove spaces and don't allow empty strings
         sentences = wordInput.split(".").map(sentence => sentence.trim()).filter(sentence => sentence != "");
