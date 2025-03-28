@@ -149,7 +149,7 @@ function processInput() {
     ipaList.forEach((sentenceIPA, sentenceIndex) => {
         sentenceIPA.forEach((element, index) => {
             // IPA hasn't been set OR is being changed through form
-            if (element == "" || unknownGroup[sentenceIndex].includes(sentences[sentenceIndex][index])) {
+            if (element == "" || unknownGroup[sentenceIndex].includes(sentences[sentenceIndex].split(" ")[index])) {
                 sentenceIPA[index] = document.getElementsByClassName("buttonGroup")[formIndex].querySelector(".ipaButton.selected").dataset.value;
                 formIndex++;
             }
