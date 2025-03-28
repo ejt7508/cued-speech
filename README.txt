@@ -3,5 +3,9 @@ For example, horse originally only had the pronunciation "/ˈhɔɹs/", but was e
 pronunciation "/ˈhoʊɹs/". This also includes IPA notation with stress marks ˈ or ˌ in between the characters.
 
 
-to do: split input by period so that different sentences aren't liason'd
-add link to this site in form https://www.vocabulary.com/resources/ipa-pronunciation/
+to do: 
+- split input by period so that different sentences aren't liason'd
+- add link to this site in form https://www.vocabulary.com/resources/ipa-pronunciation/
+- don't remove apostrophes!! to allow i'm and it's
+- make buttons bigger
+- X button on form breaks on mobile

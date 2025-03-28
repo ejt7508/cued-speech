@@ -1,7 +1,10 @@
 var ipaList = [];
 var pronunciationData;
 var unknown = [];
+var unknownGroup = [];
+
 var wordInput = [];
+var sentences = [];
 
 var cueNotation = [];
 var phonemes = [];
@@ -17,6 +20,7 @@ fetch('en_US copy.json')
         let resultIPA = document.getElementById('resultIPA');
         let resultCued = document.getElementById('resultCued');
         let windowText = document.getElementById('window-text');
+
         // Clear content from previous usage
         resultIPA.innerHTML = "";
         resultCued.innerHTML = "";
@@ -34,60 +38,96 @@ fetch('en_US copy.json')
         unknown = [];
         let unknownIndices = [];
         unknownOptions = [];
-        wordInput = document.getElementById('wordInput').value.replace(/[.,\/#!?$%\^&\*;:{}=\-_`~()]/g,"").replace(/\s{2,}/g," ").replace(/\r?\n/g, " ").trim().split(" ");
+
+        wordInput = document.getElementById('wordInput').value.replaceAll(/[,\/#!?$%\^&\*;:{}=_`~()]/g,"").replaceAll(/\s{2,}/g," ").replaceAll(/\r?\n/g, " ").trim();     
+        wordInput = wordInput.replaceAll("[?!]", ".");
+
+        // Remove spaces and don't allow empty strings
+        sentences = wordInput.split(".").map(sentence => sentence.trim()).filter(sentence => sentence != "");
+        console.log(sentences);
+
+        cleanInput = wordInput.replaceAll(".", "").split(" ");
+        console.log(cleanInput);
+
         if (wordInput == "") {
             return;
         }
-        wordInput.every((element, index) => {
-            element = element.toLowerCase();
-            ipa = `${pronunciationData[element]}`;
-        
-            if (element in pronunciationData) {
-                let ipa_options = ipa.split(', ');
 
-                // Check for duplicates (same except for ')
-                let uniqueOptions = [];
-                let normalized = [];
-                ipa_options.forEach(option => {
-                    let normalizedIPA = (option.replaceAll('/', '').replaceAll('ˈ', ''));
-                    if (!normalized.includes(normalizedIPA)) {
-                        normalized.push(normalizedIPA);
-                        uniqueOptions.push(option);
+        unknownGroup = [];
+        let unknownIndicesGroup = [];
+        let unknownOptionsGroup = [];
+        let index = 0;
+
+        sentences.every((sentence) => {
+            let sentenceIPA = [];
+
+            unknown = [];
+            unknownIndices = [];
+            unknownOptions = [];
+
+            let words = sentence.split(" ");
+            words.every((element)  => {
+                element = element.toLowerCase();
+                console.log(element);
+                let ipa = `${pronunciationData[element]}`;
+            
+                if (element in pronunciationData) {
+                    let ipa_options = ipa.split(', ');
+
+                    // Check for duplicates (same except for ')
+                    let uniqueOptions = [];
+                    let normalized = [];
+                    ipa_options.forEach(option => {
+                        let normalizedIPA = (option.replaceAll('/', '').replaceAll('ˈ', ''));
+                        if (!normalized.includes(normalizedIPA)) {
+                            normalized.push(normalizedIPA);
+                            uniqueOptions.push(option);
+                        }
+                        else {
+                            uniqueOptions[uniqueOptions.indexOf(option)] = option;
+                        }
+                    });
+
+                    if (uniqueOptions.length > 1) {
+                        // if there's more than one option, prepare variables for displaying form
+                        unknown.push(element);
+                        unknownIndices.push(index);
+                        unknownOptions.push(uniqueOptions);
+
+                        // placeholder so that words remain in correct order
+                        sentenceIPA.push("");
                     }
                     else {
-                        uniqueOptions[uniqueOptions.indexOf(option)] = normalizedIPA;
+                        // only one unique option
+                        sentenceIPA.push(uniqueOptions[0]);
                     }
-                });
-
-                if (uniqueOptions.length > 1) {
-                    // if there's more than one option, prepare variables for displaying form
-                    unknown.push(element);
-                    unknownIndices.push(index);
-                    unknownOptions.push(uniqueOptions);
-
-                    // placeholder so that words remain in correct order
-                    ipaList.push("");
+                    // continue
+                    index++;
+                    return true;
+                } else {
+                    resultIPA.innerHTML = `<strong>Word "` + element + `" not found.</strong>`;
+                    accept = false;
+                    // break
+                    return false;
                 }
-                else {
-                    // only one unique option
-                    ipaList.push(uniqueOptions[0]);
-                }
-                // continue
-                return true;
-            } else {
-                resultIPA.innerHTML = `<strong>Word "` + element + `" not found.</strong>`;
-                accept = false;
-                // break
+            });
+            if (!accept) {
                 return false;
             }
+            unknownGroup.push(unknown);
+            unknownIndicesGroup.push(unknownIndices);
+            unknownOptionsGroup.push(unknownOptions);
+
+            ipaList.push(sentenceIPA);
+            return true;
         });
         // If input is not acceptable, don't process
         if (!accept) {
             return;
         }
         // Some pronunciations not known, need user input
-        if (unknown.length != 0) {
-            displayForm(unknown, wordInput, unknownIndices, unknownOptions);
+        if (unknownOptions.length != 0) {
+            displayForm(unknownGroup, cleanInput, unknownIndicesGroup, unknownOptionsGroup);
         }
         else {
             processInput();
@@ -99,20 +139,31 @@ fetch('en_US copy.json')
 
 
 function processInput() {
+    // reset values
+    cueNotation = [];
+    phonemes = [];
     let formIndex = 0;
     let completeIPA = "";
-    ipaList.forEach((element, index) => {
-        // IPA hasn't been set OR is being changed through form
-        if (element == "" || unknown.includes(wordInput[index])) {
-            ipaList[index] = document.getElementsByClassName("buttonGroup")[formIndex].querySelector(".ipaButton.selected").dataset.value;
-            formIndex++;
-        }
-        completeIPA += ipaList[index].replaceAll('/', '') + " ";
+    let phonemeIndex = 0;
+
+    ipaList.forEach((sentenceIPA, sentenceIndex) => {
+        sentenceIPA.forEach((element, index) => {
+            // IPA hasn't been set OR is being changed through form
+            if (element == "" || unknownGroup[sentenceIndex].includes(sentences[sentenceIndex][index])) {
+                sentenceIPA[index] = document.getElementsByClassName("buttonGroup")[formIndex].querySelector(".ipaButton.selected").dataset.value;
+                formIndex++;
+            }
+            completeIPA += sentenceIPA[index].replaceAll('/', '').replaceAll('ˈ', '') + " ";
+        });
+        phonemeIndex = convertToCue(sentenceIPA.join(" "), phonemeIndex);
     });
+    console.log(phonemes);
     completeIPA = "/" + completeIPA.slice(0, -1) + "/";
     console.log(completeIPA);
+    console.log(cueNotation);
     document.getElementById("resultIPA").innerHTML = completeIPA;
-    convertToCue(completeIPA);
+    document.getElementById("resultCued").innerHTML = cueNotation.join(" ");
+    //convertToCue(completeIPA);
 
     // Start animation
     playing = true;
@@ -120,16 +171,13 @@ function processInput() {
     startAnimation();
 }
 
-function convertToCue(ipa) {
-    cueNotation = [];
+function convertToCue(ipa, phonemeIndex) {
     let consonants = ["d", "p", "ʒ", "ð", "k", "v", "z", "s", "h", "ɹ", "hw", "b", "n", "m", "t", "f", "w", "ʃ", "ɫ", "θ", "dʒ", "ɡ", "j", "ŋ", "tʃ"];
     let vowels = ["i", "ɝ", "ɔ", "u", "ɛ", "ʊ", "ɪ", "æ", "oʊ", "ɑ", "ə", "ɔɪ", "eɪ", "aɪ", "aʊ", "o", "e", "a"];
     ipa = ipa.replaceAll('/', '').replaceAll('ˈ', '');
     let handshape = "";
     let position = "";
-    phonemes = [];
     let i = 0;
-    let phonemeIndex = 0;
 
     while(i < ipa.length) {
         let symbol = ipa[i];
@@ -192,9 +240,9 @@ function convertToCue(ipa) {
     if (handshape != "") {
         cueNotation.push(handshape + "s");
     }
-    document.getElementById("resultCued").innerHTML = cueNotation.join(" ");
-    console.log(cueNotation);
-    return cueNotation;
+    // Keep phonemes for each sentence separate
+    phonemes.push(" ");
+    return phonemeIndex + 1;
 }
 
 function processForm() {

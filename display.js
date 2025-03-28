@@ -1,4 +1,4 @@
-function displayForm(unknown, wordInput, unknownIndices, unknownOptions) {
+function displayForm(unknownGroup, cleanInput, unknownIndicesGroup, unknownOptionsGroup) {
     // Clear content from previous usage
     document.getElementById("formContent").innerHTML = "";
     // Make form visible
@@ -6,75 +6,78 @@ function displayForm(unknown, wordInput, unknownIndices, unknownOptions) {
 
     let formContent = document.getElementById('formContent');
 
-    unknown.forEach((element, index) => {
-        let optionContainer = document.createElement("div");
-        optionContainer.classList.add("optionContainer");
-
-        let unknownIndex = unknownIndices[index];
-        let labelText = "";
-        if (unknownIndex == 0) {
-            let nextWords = wordInput.slice(1, Math.min(3, wordInput.length)).join(" ");
-            labelText = `<strong>${element}</strong> ${nextWords}`;
-        }
-        else if (unknownIndex == wordInput.length - 1) {
-            let prevWords = wordInput.slice(-Math.min(3, wordInput.length + 1), wordInput.length - 1).join(" ");
-            labelText = `${prevWords} <strong>${element}</strong>`;
-        }
-        else {
-            labelText = wordInput[unknownIndex - 1] + ` <strong>${element}</strong> ` + wordInput[unknownIndex + 1];
-        }
-
-        // Display word as label
-        let wordLabel = document.createElement("p");
-        wordLabel.innerHTML = labelText;
-        optionContainer.appendChild(wordLabel);
-
-        // Create a container for the buttons
-        let buttonGroup = document.createElement("div");
-        buttonGroup.classList.add("buttonGroup");
-
-        unknownOptions[index].forEach((ipa) => {
-            let ipaButton = document.createElement("button");
-            ipaButton.type = "button";
-            ipaButton.classList.add("ipaButton");
-            ipaButton.innerHTML = ipa;
-            ipaButton.dataset.word = element;
-            ipaButton.dataset.value = ipa;
-
-            // Click to select
-            ipaButton.addEventListener("click", () => {
-                // Remove active class from other buttons of the same word
-                let buttonGroup = ipaButton.closest(".buttonGroup");
-                let buttons = buttonGroup.querySelectorAll(".ipaButton");
-                buttons.forEach(btn => {
-                    btn.classList.remove("selected")
+    unknownGroup.forEach((unknown, groupIndex) => {
+        unknown.forEach((element, index) => {
+            let optionContainer = document.createElement("div");
+            optionContainer.classList.add("optionContainer");
+    
+            let unknownIndex = unknownIndicesGroup[groupIndex][index];
+            let labelText = "";
+            if (unknownIndex == 0) {
+                let nextWords = cleanInput.slice(1, Math.min(3, cleanInput.length)).join(" ");
+                labelText = `<strong>${element}</strong> ${nextWords}`;
+            }
+            else if (unknownIndex == cleanInput.length - 1) {
+                let prevWords = cleanInput.slice(-Math.min(3, cleanInput.length + 1), cleanInput.length - 1).join(" ");
+                labelText = `${prevWords} <strong>${element}</strong>`;
+            }
+            else {
+                labelText = cleanInput[unknownIndex - 1] + ` <strong>${element}</strong> ` + cleanInput[unknownIndex + 1];
+            }
+    
+            // Display word as label
+            let wordLabel = document.createElement("p");
+            wordLabel.innerHTML = labelText;
+            optionContainer.appendChild(wordLabel);
+    
+            // Create a container for the buttons
+            let buttonGroup = document.createElement("div");
+            buttonGroup.classList.add("buttonGroup");
+    
+            let unknownOptions = unknownOptionsGroup[groupIndex];
+            unknownOptions[index].forEach((ipa) => {
+                let ipaButton = document.createElement("button");
+                ipaButton.type = "button";
+                ipaButton.classList.add("ipaButton");
+                ipaButton.innerHTML = ipa;
+                ipaButton.dataset.word = element;
+                ipaButton.dataset.value = ipa;
+    
+                // Click to select
+                ipaButton.addEventListener("click", () => {
+                    // Remove active class from other buttons of the same word
+                    let buttonGroup = ipaButton.closest(".buttonGroup");
+                    let buttons = buttonGroup.querySelectorAll(".ipaButton");
+                    buttons.forEach(btn => {
+                        btn.classList.remove("selected")
+                    });
+                    
+                    // Mark this one as selected
+                    ipaButton.classList.add("selected");
+    
+                    // Remove error markings
+                    buttonGroup.classList.remove("error");
+                    document.getElementById("formSubmit").classList.remove("error");
                 });
-                
-                // Mark this one as selected
-                ipaButton.classList.add("selected");
-
-                // Remove error markings
-                buttonGroup.classList.remove("error");
-                document.getElementById("formSubmit").classList.remove("error");
-            });
-
-            // Double-click to apply to all instances
-            ipaButton.addEventListener("dblclick", () => {
-                let allButtons = document.querySelectorAll(`.ipaButton[data-word='${element}']`);
-                allButtons.forEach(btn => {
-                    if (btn.dataset.value === ipa) {
-                        btn.classList.add("selected");
-                    } else {
-                        btn.classList.remove("selected");
-                    }
+    
+                // Double-click to apply to all instances
+                ipaButton.addEventListener("dblclick", () => {
+                    let allButtons = document.querySelectorAll(`.ipaButton[data-word='${element}']`);
+                    allButtons.forEach(btn => {
+                        if (btn.dataset.value === ipa) {
+                            btn.classList.add("selected");
+                        } else {
+                            btn.classList.remove("selected");
+                        }
+                    });
                 });
+    
+                buttonGroup.appendChild(ipaButton);
             });
-
-            buttonGroup.appendChild(ipaButton);
+    
+            optionContainer.appendChild(buttonGroup);
+            formContent.appendChild(optionContainer);
         });
-
-        optionContainer.appendChild(buttonGroup);
-        formContent.appendChild(optionContainer);
     });
 }
 
