@@ -1,6 +1,6 @@
 This program converts English sentences to Cued American English using cue notation. Each number and letters corresponds to a handshape and location around the face and chest, as shown in the following diagram:
 
-![Cued Speech chart](https://github.com/ejt7508/cued-speech/cue-chart.jpg)
+![Cued Speech chart](https://github.com/ejt7508/cued-speech/blob/main/cue-chart.jpg)
 
 Phonemic pronunciation information in International Phonetic Alphabet (IPA) transcription is taken from https://github.com/open-dict-data/ipa-dict
 
