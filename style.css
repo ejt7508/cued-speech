@@ -143,6 +143,8 @@ button:hover {
     transform: translateX(-50%);
 }
 .btnCancel {
+    -webkit-appearance: none;
+    border-radius: 0;
     position: absolute;
     right: 10px;
     top: 10px;
