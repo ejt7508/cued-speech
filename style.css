@@ -2,16 +2,18 @@ body {
     /*color:chartreuse;*/
     font-family: 'Segoe UI', Tahoma, sans-serif;
     height: 100%;
+    color: black;
 }
 h1 {
-    font-size: 1.8em;
+    font-size: 1.6em;
     margin: 0;
     margin-bottom: 20px;
+    text-align: center;
 }
 #window {
-    width: 40%;
-    min-width: 350px;
-    max-width: 800px;
+    width: 80%;
+    min-width: 300px;
+    max-width: 700px;
     /*min-height: 250px;*/
     padding-top: max(100px, 10%);
     padding-bottom: max(100px, 10%);
@@ -21,20 +23,23 @@ h1 {
     /*margin-bottom: 50px;*/
 }
 #window span {
+    font-size: 2em;
     margin: auto;
     padding: 10px;
 }
 #window-buttons {
     margin: auto;
-    display: flex;
-    gap: 20px;
     text-align: center;
     width: 40%;
     min-width: 350px;
     max-width: 800px;
+    /* can't select between buttons */
+    user-select: none;
 }
 #window-buttons i {
     cursor: pointer;
+    font-size: 1.6em;
+    padding: 10px 20px 0px 20px;
 }
 .input {
     /* center text input and submit button */
@@ -139,9 +144,9 @@ button:hover {
     position: absolute;
     right: 10px;
     top: 10px;
-    width: 35px;
-    height: 35px;
-    font-size: 1.3em;
+    width: 40px;
+    height: 40px;
+    font-size: 1.2em;
 }
 #formContent {
     max-width: 100%;
