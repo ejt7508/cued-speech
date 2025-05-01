@@ -90,6 +90,7 @@ button {
     border: 1px solid black;
     cursor: pointer;
     transition: 0.2s ease;
+    color: black;
 }
 button:hover {
     background-color: #e0e0e0;
@@ -131,6 +132,7 @@ button:hover {
     /*margin-top: 40px;*/
     width: 90%;
 }
+/* submit */
 .btn {
     padding: 5px;
     width: 100px;
@@ -147,6 +149,7 @@ button:hover {
     width: 40px;
     height: 40px;
     font-size: 1.2em;
+    margin: 0;
 }
 #formContent {
     max-width: 100%;
