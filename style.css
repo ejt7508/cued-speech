@@ -143,16 +143,18 @@ button:hover {
     transform: translateX(-50%);
 }
 .btnCancel {
-    -webkit-appearance: none;
-    border-radius: 0;
     position: absolute;
     right: 10px;
     top: 10px;
-    width: 40px;
-    height: 40px;
-    font-size: 1.2em;
-    margin: 0;
-    text-align: center;
+    width: 35px;
+    height: 35px;
+    font-size: 1.3em;
+
+    /* Fix for iOS */
+    -webkit-appearance: none;
+    appearance: none;
+    padding: 0;
+    line-height: 1;
 }
 #formContent {
     max-width: 100%;
