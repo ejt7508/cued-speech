@@ -90,7 +90,7 @@ button {
     border: 1px solid black;
     cursor: pointer;
     transition: 0.2s ease;
-    color: black;
+    color: black !important;
 }
 button:hover {
     background-color: #e0e0e0;
@@ -150,6 +150,7 @@ button:hover {
     height: 40px;
     font-size: 1.2em;
     margin: 0;
+    text-align: center;
 }
 #formContent {
     max-width: 100%;
