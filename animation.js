@@ -4,6 +4,7 @@ var startTime = 0;
 var medDelay = 1000;
 var curDelay = medDelay;
 var intervalId = null;
+var previousCue = "";
 
 function restart() {
     animation_index = 0;
@@ -56,6 +57,7 @@ function play(icon) {
 }
 
 function startAnimation() {
+    previousCue = "";
     if (playing) {
         display();
 
@@ -80,8 +82,23 @@ function display() {
     );
 
     // Set window text
-    document.getElementById("window-text").innerHTML = cueNotation[animation_index];
+    //document.getElementById("window-text").innerHTML = cueNotation[animation_index];
     document.getElementById("resultIPA").innerHTML = ipaWords.join("");
+
+    // image
+    position = cueNotation[animation_index].slice(1);
+    hand = document.getElementById("hand");
+    switch(position) {
+        case("m"): hand.style.right = "120px"; hand.style.bottom = "80px"; break;
+    }
+    if (position == previousCue) {
+        hand = document.getElementById("hand");
+        hand.style.transform = "scale(1.1)";
+        setTimeout(() => {
+            hand.style.transform = "scale(1)";
+        }, 150);
+    }
+    previousCue = position;
 }
 
 function pause(icon) {

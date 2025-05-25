@@ -12,15 +12,25 @@ h1 {
 }
 #window {
     width: 80%;
-    min-width: 300px;
-    max-width: 700px;
+    height: 500px;
+    max-width: 950px;
     /*min-height: 250px;*/
-    padding-top: max(100px, 10%);
-    padding-bottom: max(100px, 10%);
     border: 1px solid black;
     text-align: center;
     margin: auto;
     /*margin-bottom: 50px;*/
+    position: relative;
+}
+#window #face {
+    margin: auto;
+    width: 400px;
+}
+#window #hand {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    width: 300px;
+    transition: .5s;
 }
 #window span {
     font-size: 2em;
