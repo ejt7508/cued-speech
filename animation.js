@@ -86,17 +86,59 @@ function display() {
     document.getElementById("resultIPA").innerHTML = ipaWords.join("");
 
     // image
+    handshape = cueNotation[animation_index][0];
     position = cueNotation[animation_index].slice(1);
     hand = document.getElementById("hand");
-    switch(position) {
-        case("m"): hand.style.right = "120px"; hand.style.bottom = "80px"; break;
+    hand.src = "images/5.png";
+    hand.style.transform = "scale(1)";
+    switch(handshape) {
+        case("1"): hand.src = "images/1.png"; break;
+        case("2"): hand.src = "images/2.png"; break;
+        case("3"): hand.src = "images/3.png"; break;
+        case("4"): hand.src = "images/4.png"; break;
+        case("5"): hand.src = "images/5.png"; break;
+        case("6"): hand.src = "images/6.png"; break;
+        case("7"): hand.src = "images/7.png"; break;
+        case("8"): hand.src = "images/8.png"; break;
     }
-    if (position == previousCue) {
+    switch(position) {
+        case("m"): hand.style.left = "56%"; hand.style.top = "10%"; break;
+        case("c"): hand.style.left = "49%"; hand.style.top = "30%"; break;
+        case("t"): hand.style.left = "49%"; hand.style.top = "40%"; break;
+        case("s"): hand.style.left = "70%"; hand.style.top = "35%"; break;
+        case("sf"): 
+            hand.style.left = "70%"; hand.style.top = "35%"; 
+            setTimeout(() => {
+                hand.style.transform = "scale(1.1)"; 
+            }, 100);   
+            break;
+        case("sd"): 
+            hand.style.left = "70%"; hand.style.top = "35%";     
+            setTimeout(() => {
+                hand.style.left = "70%"; hand.style.top = "45%"; 
+            }, 300);
+            break;
+        case("c-5t"): 
+            hand.style.left = "49%"; hand.style.top = "30%"; 
+            setTimeout(() => {
+                hand.src = "images/5.png";
+                hand.style.left = "49%"; hand.style.top = "40%";
+            }, 200);
+            break;
+        case("s-5t"): 
+            hand.style.left = "70%"; hand.style.top = "35%"; 
+            setTimeout(() => {
+                hand.src = "images/5.png";
+                hand.style.left = "49%"; hand.style.top = "40%";
+            }, 200);
+            break;
+    }
+    if (position == previousCue && position != "sf" && position != "sd" && position != "c-5t" && position !="s-5t") {
         hand = document.getElementById("hand");
         hand.style.transform = "scale(1.1)";
         setTimeout(() => {
             hand.style.transform = "scale(1)";
-        }, 150);
+        }, 100);
     }
     previousCue = position;
 }
