@@ -1,3 +1,8 @@
+// TESTING
+// s: dvhbmlgj
+// m: divihibimiligiji
+
+
 var animation_index = 0;
 var playing = false;
 var startTime = 0;
@@ -21,6 +26,7 @@ function previous() {
 }
 
 function next() {
+    console.log(animation_index);
     if (animation_index < cueNotation.length - 1) {
         animation_index++;
         resetAnimationTimer();
@@ -39,12 +45,13 @@ function setIndex(amount) {
     display();
 }
 
-function play(icon) {
+function play(button) {
+    let icon = document.getElementById('pause');
     if (!playing) {
         /* change icon */
         icon.classList.remove("fa-play");
         icon.classList.add("fa-pause");
-        icon.setAttribute("onClick", "pause(this)");
+        button.setAttribute("onClick", "pause(this)");
 
         playing = true;
 
@@ -93,10 +100,7 @@ function display() {
     switch(position) {
         case("m"):  
             switch(handshape) {
-                case("1"): hand.style.left = "52%"; hand.style.top = "18%"; break;
-                case("2"): hand.style.left = "55%"; hand.style.top = "12%"; break;
-                case("6"): hand.style.left = "54%"; hand.style.top = "14%"; break;
-                case("8"): hand.style.left = "56%"; hand.style.top = "8%"; break;
+                case("1"): hand.style.left = "56%"; hand.style.top = "12%"; break;
                 default: hand.style.left = "56%"; hand.style.top = "10%"; break;
             }
             break;
@@ -121,28 +125,16 @@ function display() {
             }
             break;
         case("s"): 
-            switch(handshape) {
-                case("1"): hand.style.left = "68%"; hand.style.top = "40%"; break;
-                case("8"): hand.style.left = "70%"; hand.style.top = "42%"; break;
-                default: hand.style.left = "70%"; hand.style.top = "36%"; break;
-            }
+            hand.style.left = "70%"; hand.style.top = "35%";
             break;
         case("sf"): 
-            switch(handshape) {
-                case("1"): hand.style.left = "68%"; hand.style.top = "40%"; break;
-                case("8"): hand.style.left = "70%"; hand.style.top = "42%"; break;
-                default: hand.style.left = "70%"; hand.style.top = "35%"; break;
-            }
+            hand.style.left = "70%"; hand.style.top = "35%";
             setTimeout(() => {
                 hand.style.transform = "scale(1.2)"; 
             }, 100);   
             break;
         case("sd"): 
-            switch(handshape) {
-                case("1"): hand.style.left = "68%"; hand.style.top = "40%"; break;
-                case("8"): hand.style.left = "70%"; hand.style.top = "42%"; break;
-                default: hand.style.left = "70%"; hand.style.top = "35%"; break;
-            }
+            hand.style.left = "70%"; hand.style.top = "35%";
             setTimeout(() => {
                 hand.style.left = "70%"; hand.style.top = "45%"; 
             }, 300);
@@ -169,11 +161,7 @@ function display() {
             }, 400);
             break;
         case("s-5t"): 
-            switch(handshape) {
-                case("1"): hand.style.left = "68%"; hand.style.top = "40%"; break;
-                case("8"): hand.style.left = "70%"; hand.style.top = "42%"; break;
-                default: hand.style.left = "70%"; hand.style.top = "35%"; break;
-            }
+            hand.style.left = "70%"; hand.style.top = "35%";
             setTimeout(() => {
                 hand.src = "images/5.png";
                 switch(handshape) {
@@ -207,11 +195,12 @@ function display() {
     previousCue = position;
 }
 
-function pause(icon) {
+function pause(button) {
+    let icon = document.getElementById('pause');
     /* change icon */
     icon.classList.remove("fa-pause");
     icon.classList.add("fa-play");
-    icon.setAttribute("onClick", "play(this)");
+    button.setAttribute("onClick", "play(this)");
 
     playing = false;
     clearInterval(intervalId); // Stop animation loop

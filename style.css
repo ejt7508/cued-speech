@@ -4,6 +4,9 @@ body {
     height: 100%;
     color: black;
 }
+main {
+    margin-bottom: 80px;
+}
 h1 {
     font-size: 1.6em;
     margin: 0;
@@ -69,11 +72,24 @@ h1 {
     /* can't select between buttons */
     user-select: none;
 }
-#window-buttons i {
-    cursor: pointer;
-    font-size: 1.6em;
-    padding: 10px 20px 0px 20px;
+
+#window-buttons button {
+    background: transparent;
+    border: none;
+    width: 50px;
+    margin: 5px 10px;
+    transition: transform 1.s;
 }
+#window-buttons button:active {
+    transform: scale(.90);
+}
+#window-buttons i {
+    font-size: 1.6em;
+}
+#window-buttons i:focus {
+    border: 1px solid black;
+}
+
 .input {
     /* center text input and submit button */
     text-align: center;
@@ -118,12 +134,18 @@ textarea:focus {
     margin-bottom: 5px;
 }
 button {
+    all: unset;
+    background-color: #f0f0f0;
+    text-align: center;
     font-size: inherit;
     font-family: inherit;
     border: 1px solid black;
     cursor: pointer;
     transition: 0.2s ease;
-    color: black !important;
+    color: black;
+}
+button:focus {
+    outline: revert;
 }
 button:hover {
     background-color: #e0e0e0;
@@ -226,8 +248,6 @@ button:hover {
 }
 .ipaButton {
     padding: 10px 10px;
-    border: 1px solid #ccc;
-    background-color: #f8f8f8;
     cursor: pointer;
     transition: 0.2s;
     min-width: 100px;
@@ -238,13 +258,61 @@ button:hover {
     background-color: #e0e0e0;
 }
 .ipaButton.selected {
-    background-color: #007bff;
+    background-color: #8b8b8b;
     color: white;
-    border-color: #0056b3;
 }
 .error .ipaButton{
     color: red;
 }
 .error.btn {
     color:rgba(0, 0, 0, 0.384)
+}
+
+
+
+#IPAselector {
+    display: none;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+#IPAselector h3 {
+    text-align: center;
+    margin: 0px;
+}
+.ipa-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    gap: 8px;
+    max-width: 350px;
+    margin: 20px;
+}
+
+.IPAselect {
+    padding: 10px;
+    border-radius: 8px;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.IPAselect:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transform: translateY(-2px);
+}
+
+.IPAselect:active {
+    transform: scale(0.95);
+}
+
+/*
+.IPAselect.consonant {
+  border-color: #bde9fd;
+}
+
+.IPAselect.vowel {
+  border-color: #f9d6a8;
+}
+  */
+.hidden {
+    display: none;
 }

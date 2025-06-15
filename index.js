@@ -1,9 +1,3 @@
-// TESTING
-// s: dvhbmlgj
-// m: divihibimiligiji
-
-
-
 var ipaList = [];
 var pronunciationData;
 var unknown = [];
@@ -15,7 +9,7 @@ var sentences = [];
 var cueNotation = [];
 var phonemes = [];
 
-var checkbox;
+var checkbox = document.getElementById('inputIPA');;
 
 // Fetch JSON data
 fetch('en_US copy.json')
@@ -66,7 +60,6 @@ fetch('en_US copy.json')
         let index = 0;
 
         sentences.every((sentence) => {
-            checkbox = document.getElementById('inputIPA');
             if(checkbox.checked) {
                 ipaList.push(sentence.split(" "));
                 return false;
@@ -193,9 +186,10 @@ function processInput() {
 }
 
 function convertToCue(ipa, phonemeIndex) {
-    let consonants = ["d", "p", "ʒ", "ð", "k", "v", "z", "s", "h", "ɹ", "hw", "b", "n", "m", "t", "f", "w", "ʃ", "ɫ", "l", "θ", "dʒ", "ɡ", "j", "ŋ", "tʃ"];
+    let consonants = ["d", "p", "ʒ", "ð", "k", "v", "z", "s", "h", "ɹ", "hw", "b", "n", "m", "t", "f", "w", "ʃ", "ɫ", "l", "θ", "dʒ", "ɡ", "g", "j", "ŋ", "tʃ"];
     let vowels = ["i", "ɝ", "ɔ", "u", "ɛ", "ʊ", "ɪ", "æ", "oʊ", "ɑ", "ə", "ɔɪ", "eɪ", "aɪ", "aʊ", "o", "e", "a"];
-    ipa = ipa.replaceAll('/', '').replaceAll('ˈ', '');
+    // remove all unnecessary characters
+    ipa = ipa.replaceAll('/', '').replaceAll('ˈ', '').replaceAll(' ', '').replaceAll('ˌ', '');
     let handshape = "";
     let position = "";
     let i = 0;
@@ -238,7 +232,7 @@ function convertToCue(ipa, phonemeIndex) {
                 case "hw": case "b": case "n": handshape = "4"; break;
                 case "m": case "t": case "f": handshape = "5"; break;
                 case "w": case "ʃ": case "ɫ": case "l": handshape = "6"; break;
-                case "θ": case "dʒ": case "ɡ": handshape = "7"; break;
+                case "θ": case "dʒ": case "ɡ": case "g": handshape = "7"; break;
                 case "j": case "ŋ": case "tʃ": handshape = "8"; break;
             }
         }
