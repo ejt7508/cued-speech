@@ -1,5 +1,6 @@
 // TESTING
 // s: dvhbmlgj
+// m: divihibimiligiji
 
 
 
@@ -158,6 +159,7 @@ function processInput() {
     let formIndex = 0;
     let completeIPA = "";
     let phonemeIndex = 0;
+    let success = true;
 
     ipaList.forEach((sentenceIPA, sentenceIndex) => {
         sentenceIPA.forEach((element, index) => {
@@ -169,7 +171,15 @@ function processInput() {
             completeIPA += sentenceIPA[index].replaceAll('/', '').replaceAll('ˈ', '') + " ";
         });
         phonemeIndex = convertToCue(sentenceIPA.join(" "), phonemeIndex);
+        // problem
+        if (phonemeIndex == -1) {
+            success = false
+            return false;
+        }
     });
+    if (!success) {
+        return;
+    }
     console.log(phonemes);
     completeIPA = "/" + completeIPA.slice(0, -1) + "/";
     console.log(completeIPA);
@@ -185,7 +195,7 @@ function processInput() {
 }
 
 function convertToCue(ipa, phonemeIndex) {
-    let consonants = ["d", "p", "ʒ", "ð", "k", "v", "z", "s", "h", "ɹ", "hw", "b", "n", "m", "t", "f", "w", "ʃ", "ɫ", "θ", "dʒ", "ɡ", "j", "ŋ", "tʃ"];
+    let consonants = ["d", "p", "ʒ", "ð", "k", "v", "z", "s", "h", "ɹ", "hw", "b", "n", "m", "t", "f", "w", "ʃ", "ɫ", "l", "θ", "dʒ", "ɡ", "j", "ŋ", "tʃ"];
     let vowels = ["i", "ɝ", "ɔ", "u", "ɛ", "ʊ", "ɪ", "æ", "oʊ", "ɑ", "ə", "ɔɪ", "eɪ", "aɪ", "aʊ", "o", "e", "a"];
     ipa = ipa.replaceAll('/', '').replaceAll('ˈ', '');
     let handshape = "";
@@ -200,6 +210,10 @@ function convertToCue(ipa, phonemeIndex) {
                 symbol = nextSymbol;
                 i++;
             }
+        }
+        if (!consonants.includes(symbol) && !vowels.includes(symbol)) {
+            document.getElementById("resultIPA").innerHTML = `<strong>Symbol "` + symbol + `" not found.</strong>`;
+            return -1;
         }
         if (consonants.includes(symbol) && handshape != "") {
             phonemeIndex++;
@@ -225,7 +239,7 @@ function convertToCue(ipa, phonemeIndex) {
                 case "s": case "h": case "ɹ": handshape = "3"; break;
                 case "hw": case "b": case "n": handshape = "4"; break;
                 case "m": case "t": case "f": handshape = "5"; break;
-                case "w": case "ʃ": case "ɫ": handshape = "6"; break;
+                case "w": case "ʃ": case "ɫ": case "l": handshape = "6"; break;
                 case "θ": case "dʒ": case "ɡ": handshape = "7"; break;
                 case "j": case "ŋ": case "tʃ": handshape = "8"; break;
             }
@@ -235,7 +249,7 @@ function convertToCue(ipa, phonemeIndex) {
                 case "i": case "ɝ": position = "m"; break;
                 case "ɔ": case "u": case "ɛ": position = "c"; break;
                 case "ʊ": case "ɪ": case "æ": position = "t"; break;
-                case "oʊ": case "ɑ": case "o": position = "sf"; break;
+                case "oʊ": case "ɑ": case "a": case "o": position = "sf"; break;
                 case "ə": position = "sd"; break;
                 case "ɔɪ": case "eɪ": position = "c-5t"; break;
                 case "aɪ": case "aʊ": position = "s-5t"; break;
