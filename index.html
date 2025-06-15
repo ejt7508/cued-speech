@@ -40,14 +40,61 @@
         <p id="resultIPA"></p>
     </div>
     <!-- Input field to search for a word -->
-     <div class="input">
+    <div class="input">
         <textarea id="wordInput" placeholder="Enter sentence here..." rows="4" cols="50" maxlength="100"></textarea> <br>
         <button id="submit" onclick="getCuedSpeech()">Submit</button>
         <label class="checkbox-container">
-            <input type="checkbox" id="inputIPA">
+            <input type="checkbox" id="inputIPA" onclick="viewIPA()">
             Input IPA
         </label>
-     </div>
+    </div>
+    <div id="IPAselector">
+        <!-- consonants -->
+        <button class="IPAselect" value="d">d</button>
+        <button class="IPAselect" value="p">p</button>
+        <button class="IPAselect" value="ʒ">zh</button>
+        <button class="IPAselect" value="ð">TH</button>
+        <button class="IPAselect" value="k">k</button>
+        <button class="IPAselect" value="v">v</button>
+        <button class="IPAselect" value="z">z</button>
+        <button class="IPAselect" value="s">s</button>
+        <button class="IPAselect" value="h">h</button>
+        <button class="IPAselect" value="ɹ">r</button>
+        <button class="IPAselect" value="hw">wh</button>
+        <button class="IPAselect" value="b">b</button>
+        <button class="IPAselect" value="n">n</button>
+        <button class="IPAselect" value="m">m</button>
+        <button class="IPAselect" value="t">t</button>
+        <button class="IPAselect" value="f">f</button>
+        <button class="IPAselect" value="w">w</button>
+        <button class="IPAselect" value="ʃ">sh</button>
+        <button class="IPAselect" value="ɫ">l</button>
+        <button class="IPAselect" value="θ">th</button>
+        <button class="IPAselect" value="dʒ">j</button>
+        <button class="IPAselect" value="ɡ">g</button>
+        <button class="IPAselect" value="j">y</button>
+        <button class="IPAselect" value="ŋ">ng</button>
+        <button class="IPAselect" value="tʃ">ch</button>
+
+        <!-- vowels -->
+        <button class="IPAselect" value="i">ee</button>
+        <button class="IPAselect" value="ɝ">ur</button>
+        <button class="IPAselect" value="ɔ">aw</button>
+        <button class="IPAselect" value="u">ue</button>
+        <button class="IPAselect" value="ɛ">e</button>
+        <button class="IPAselect" value="ʊ">oo</button>
+        <button class="IPAselect" value="ɪ">i</button>
+        <button class="IPAselect" value="æ">a</button>
+        <button class="IPAselect" value="oʊ">oe</button>
+        <button class="IPAselect" value="ɑ">ah</button>
+        <button class="IPAselect" value="ə">uh</button>
+        <button class="IPAselect" value="ɔɪ">oi</button>
+        <button class="IPAselect" value="eɪ">ay</button>
+        <button class="IPAselect" value="aɪ">igh</button>
+        <button class="IPAselect" value="aʊ">ou</button>
+
+    </div>
+    
 
 
 

@@ -17,7 +17,6 @@ var phonemes = [];
 
 var checkbox;
 
-
 // Fetch JSON data
 fetch('en_US copy.json')
 .then(response => response.json())
@@ -150,7 +149,6 @@ fetch('en_US copy.json')
     };
 })
 .catch(error => console.error('Error fetching the JSON file:', error));
-
 
 function processInput() {
     // reset values
@@ -295,3 +293,12 @@ function processForm() {
     }
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+    const IPAselectors = document.querySelectorAll('.IPAselect');
+
+    IPAselectors.forEach(IPAselector => {
+        IPAselector.addEventListener('click', () => {
+            document.getElementById('wordInput').value += IPAselector.value;
+        });
+    });
+});
