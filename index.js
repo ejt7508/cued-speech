@@ -1,3 +1,8 @@
+// TESTING
+// s: dvhbmlgj
+
+
+
 var ipaList = [];
 var pronunciationData;
 var unknown = [];
@@ -8,6 +13,9 @@ var sentences = [];
 
 var cueNotation = [];
 var phonemes = [];
+
+var checkbox;
+
 
 // Fetch JSON data
 fetch('en_US copy.json')
@@ -58,6 +66,12 @@ fetch('en_US copy.json')
         let index = 0;
 
         sentences.every((sentence) => {
+            checkbox = document.getElementById('inputIPA');
+            if(checkbox.checked) {
+                ipaList.push(sentence.split(" "));
+                return false;
+            }
+
             let sentenceIPA = [];
 
             unknown = [];
@@ -148,7 +162,7 @@ function processInput() {
     ipaList.forEach((sentenceIPA, sentenceIndex) => {
         sentenceIPA.forEach((element, index) => {
             // IPA hasn't been set OR is being changed through form
-            if (element == "" || unknownGroup[sentenceIndex].includes(sentences[sentenceIndex].split(" ")[index])) {
+            if (!checkbox.checked && (element == "" || unknownGroup[sentenceIndex].includes(sentences[sentenceIndex].split(" ")[index]))) {
                 sentenceIPA[index] = document.getElementsByClassName("buttonGroup")[formIndex].querySelector(".ipaButton.selected").dataset.value;
                 formIndex++;
             }
