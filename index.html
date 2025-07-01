@@ -41,12 +41,15 @@
     </div>
     <!-- Input field to search for a word -->
     <div class="input">
-        <textarea id="wordInput" placeholder="Enter sentence here..." rows="4" cols="50" maxlength="100"></textarea> <br>
-        <button id="submit" onclick="getCuedSpeech()">Submit</button>
-        <label class="checkbox-container">
-            <input type="checkbox" id="inputIPA" onclick="viewIPA()">
-            Input IPA
-        </label>
+        <textarea id="wordInput" placeholder="Enter sentence here..." rows="4" cols="50" maxlength="100"></textarea>
+        <div class="input-options">
+            <div class="spacer"></div> <!-- invisible spacer -->
+            <button id="submit" onclick="getCuedSpeech()">Submit</button>
+            <label class="checkbox-container" for="inputIPA"> Input IPA
+                <input type="checkbox" id="inputIPA" onclick="viewIPA()">
+                <span class="checkmark"></span>
+            </label>
+        </div>
     </div>
     <div id="IPAselector">
         <!-- consonants -->
