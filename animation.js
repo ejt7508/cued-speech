@@ -1,6 +1,8 @@
 // TESTING
 // s: dvhbmlgj
 // m: divihibimiligiji
+// c: dɛvɛhɛbɛmɛlɛgɛjɛ
+// t: dɪvɪhɪbɪmɪlɪgɪjɪ
 
 
 var animation_index = 0;
@@ -9,7 +11,9 @@ var startTime = 0;
 var medDelay = 1000;
 var curDelay = medDelay;
 var intervalId = null;
-var previousCue = "";
+
+var prevPos = "";
+var prevShape = "";
 
 function restart() {
     animation_index = 0;
@@ -64,7 +68,8 @@ function play(button) {
 }
 
 function startAnimation() {
-    previousCue = "";
+    prevPos = "";
+    prevShape = "";
     if (playing) {
         display();
 
@@ -88,116 +93,108 @@ function display() {
         index === animation_index ? `<b>${phoneme}</b>` : phoneme
     );
 
-    // Set window text
-    //document.getElementById("window-text").innerHTML = cueNotation[animation_index];
+
     document.getElementById("resultIPA").innerHTML = ipaWords.join("");
 
-    // image
-    handshape = cueNotation[animation_index][0];
-    position = cueNotation[animation_index].slice(1);
-    hand = document.getElementById("hand");
-    hand.style.transform = "scale(1)"
-    switch(position) {
-        case("m"):  
-            switch(handshape) {
-                case("1"): hand.style.left = "56%"; hand.style.top = "12%"; break;
-                default: hand.style.left = "56%"; hand.style.top = "10%"; break;
-            }
-            break;
-        case("c"): 
-            switch(handshape) {
-                case("1"): hand.style.left = "45%"; hand.style.top = "38%"; break;
-                case("2"): hand.style.left = "48%"; hand.style.top = "32%"; break;
-                case("4"): hand.style.left = "48%"; hand.style.top = "28%"; break;
-                case("6"): hand.style.left = "47%"; hand.style.top = "33%"; break;
-                case("8"): hand.style.left = "44%"; hand.style.top = "39%"; break;
-                default: hand.style.left = "49%"; hand.style.top = "30%"; break;
-            }
-            break;
-        case("t"):
-            switch(handshape) {
-                case("1"): hand.style.left = "45%"; hand.style.top = "48%"; break;
-                case("2"): hand.style.left = "48%"; hand.style.top = "45%"; break;
-                case("6"): hand.style.left = "47%"; hand.style.top = "45%"; break;
-                case("7"): hand.style.left = "49%"; hand.style.top = "42%"; break;
-                case("8"): hand.style.left = "44%"; hand.style.top = "46%"; break;
-                default: hand.style.left = "49%"; hand.style.top = "40%"; break;
-            }
-            break;
-        case("s"): 
-            hand.style.left = "70%"; hand.style.top = "35%";
-            break;
-        case("sf"): 
-            hand.style.left = "70%"; hand.style.top = "35%";
-            setTimeout(() => {
-                hand.style.transform = "scale(1.2)"; 
-            }, 100);   
-            break;
-        case("sd"): 
-            hand.style.left = "70%"; hand.style.top = "35%";
-            setTimeout(() => {
-                hand.style.left = "70%"; hand.style.top = "45%"; 
-            }, 300);
-            break;
-        case("c-5t"): 
-            switch(handshape) {
-                case("1"): hand.style.left = "45%"; hand.style.top = "38%"; break;
-                case("2"): hand.style.left = "48%"; hand.style.top = "32%"; break;
-                case("4"): hand.style.left = "48%"; hand.style.top = "28%"; break;
-                case("6"): hand.style.left = "47%"; hand.style.top = "33%"; break;
-                case("8"): hand.style.left = "44%"; hand.style.top = "39%"; break;
-                default: hand.style.left = "49%"; hand.style.top = "30%"; break;
-            }
-            setTimeout(() => {
-                hand.src = "images/5.png";
-                switch(handshape) {
-                    case("1"): hand.style.left = "45%"; hand.style.top = "48%"; break;
-                    case("2"): hand.style.left = "48%"; hand.style.top = "45%"; break;
-                    case("6"): hand.style.left = "47%"; hand.style.top = "45%"; break;
-                    case("7"): hand.style.left = "49%"; hand.style.top = "42%"; break;
-                    case("8"): hand.style.left = "44%"; hand.style.top = "46%"; break;
-                    default: hand.style.left = "49%"; hand.style.top = "40%"; break;
-                }
-            }, 400);
-            break;
-        case("s-5t"): 
-            hand.style.left = "70%"; hand.style.top = "35%";
-            setTimeout(() => {
-                hand.src = "images/5.png";
-                switch(handshape) {
-                    case("1"): hand.style.left = "45%"; hand.style.top = "48%"; break;
-                    case("2"): hand.style.left = "48%"; hand.style.top = "45%"; break;
-                    case("6"): hand.style.left = "47%"; hand.style.top = "45%"; break;
-                    case("7"): hand.style.left = "49%"; hand.style.top = "42%"; break;
-                    case("8"): hand.style.left = "44%"; hand.style.top = "46%"; break;
-                    default: hand.style.left = "49%"; hand.style.top = "40%"; break;
-                }
-            }, 200);
-            break;
+    const hand = document.getElementById("hand");
+    hand.style.transform = "scale(1)";
+
+    // Helper Lookup Tables
+    const handImages = {
+        "1": "1.png",
+        "2": "2.png",
+        "3": "3.png",
+        "4": "4.png",
+        "5": "5.png",
+        "6": "6.png",
+        "7": "7.png",
+        "8": "8.png",
+    };
+
+    const staticPositions = {
+        "m": {
+            default: ["56%", "10%"],
+            "1": ["54%", "12%"],
+            "6": ["54%", "13%"],
+            "8": ["55%", "7%"],
+        },
+        "c": {
+            default: ["49%", "27%"],
+            "1": ["47%", "29%"],
+            "6": ["47%", "30%"],
+            "8": ["44%", "35%"],
+        },
+        "t": {
+            default: ["49%", "40%"],
+            "1": ["47%", "42%"],
+            "6": ["47%", "43%"],
+            "8": ["44%", "46%"],
+        },
+        "s": {
+            default: ["70%", "35%"]
+        }
+    };
+
+    let [handshape, position] = [cueNotation[animation_index][0], cueNotation[animation_index].slice(1)];
+    hand.src = "images/" + handImages[handshape];
+
+
+    function applyPosition(posCode, shape = handshape) {
+        const posSet = staticPositions[posCode];
+        const [left, top] = posSet[shape] || posSet.default;
+        hand.style.left = left;
+        hand.style.top = top;
     }
-    switch(handshape) {
-        case("1"): hand.src = "images/1.png"; break;
-        case("2"): hand.src = "images/2.png"; break;
-        case("3"): hand.src = "images/3.png"; break;
-        case("4"): hand.src = "images/4.png"; break;
-        case("5"): hand.src = "images/5.png"; break;
-        case("6"): hand.src = "images/6.png"; break;
-        case("7"): hand.src = "images/7.png"; break;
-        case("8"): hand.src = "images/8.png"; break;
+
+    // Animate Position
+    if (position === "sf") {
+        applyPosition("s");
+        setTimeout(() => {
+            hand.style.transform = "scale(1.2)";
+        }, 100);
+    } 
+    else if (position === "sd") {
+        applyPosition("s");
+        setTimeout(() => {
+            hand.style.top = "45%";
+        }, 300);
+    } 
+    else if (position === "c-5t" || position === "s-5t") {
+        // Start at "c" or "s"
+        if (position === "c-5t") {
+            applyPosition("c");
+        } else {
+            applyPosition("s");
+        }
+
+        setTimeout(() => {
+            hand.src = "images/" + handImages[5];
+            applyPosition("t");
+        }, 300);
+    } 
+    else {
+        applyPosition(position);
     }
-    if ((position == previousCue && position != "sf" && position != "sd" && position != "c-5t" && position !="s-5t") || (position == "t" && (previousCue == "c-5t" || previousCue == "s-5t"))) {
-        hand = document.getElementById("hand");
+
+    // Tap or flick for cue clarity
+    if (
+        (position === prevPos && (['c', 'm', 't'].includes(position) || (position === 's' && handshape === prevShape))) ||
+        (position === 'c-5t' && prevPos === 'c') ||
+        (position === 's-5t' && prevPos === 's') ||
+        (position === 't' && ['c-5t', 's-5t'].includes(prevPos))
+    ) {
         hand.style.transform = "scale(1.1)";
         setTimeout(() => {
             hand.style.transform = "scale(1)";
         }, 100);
     }
-    previousCue = position;
+    prevPos = position;
+    prevShape = handshape;
 }
 
 function pause(button) {
     let icon = document.getElementById('pause');
-    /* change icon */
+    // Change icon
     icon.classList.remove("fa-pause");
     icon.classList.add("fa-play");
     button.setAttribute("onClick", "play(this)");
