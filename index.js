@@ -292,7 +292,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
     IPAselectors.forEach(IPAselector => {
         IPAselector.addEventListener('click', () => {
-            document.getElementById('wordInput').value += IPAselector.value;
+            insertAtCursor(document.getElementById('wordInput'), IPAselector.value);
         });
     });
 });
+
+function insertAtCursor(myField, myValue) {
+    // For modern browsers
+    if (myField.selectionStart || myField.selectionStart === 0) {
+        let startPos = myField.selectionStart;
+        let endPos = myField.selectionEnd;
+
+        myField.value = myField.value.substring(0, startPos)
+            + myValue
+            + myField.value.substring(endPos);
+
+        // Move cursor to just after inserted text
+        const newCursorPos = startPos + myValue.length;
+        myField.selectionStart = myField.selectionEnd = newCursorPos;
+
+        // Ensure field stays focused after insertion
+        myField.focus();
+    } else {
+        // Fallback for older browsers
+        myField.value += myValue;
+        myField.focus();
+    }
+}
