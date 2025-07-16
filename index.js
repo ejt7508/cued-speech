@@ -74,7 +74,6 @@ fetch('en_US copy.json')
             let words = sentence.split(" ");
             words.every((element)  => {
                 element = element.toLowerCase();
-                console.log(element);
                 let ipa = `${pronunciationData[element]}`;
             
                 if (element in pronunciationData) {
@@ -122,7 +121,9 @@ fetch('en_US copy.json')
             }
             unknownGroup.push(unknown);
             unknownIndicesGroup.push(unknownIndices);
-            unknownOptionsGroup.push(unknownOptions);
+            if (unknownOptions.length != 0) {
+                unknownOptionsGroup.push(unknownOptions);
+            }
 
             ipaList.push(sentenceIPA);
             return true;
@@ -132,7 +133,7 @@ fetch('en_US copy.json')
             return;
         }
         // Some pronunciations not known, need user input
-        if (unknownOptions.length != 0) {
+        if (unknownOptionsGroup.length != 0) {
             displayForm(unknownGroup, cleanInput, unknownIndicesGroup, unknownOptionsGroup);
         }
         else {
@@ -161,6 +162,7 @@ function processInput() {
             }
             completeIPA += sentenceIPA[index].replaceAll('/', '').replaceAll('ˈ', '') + " ";
         });
+        console.log(sentenceIPA);
         phonemeIndex = convertToCue(sentenceIPA.join(" "), phonemeIndex);
         // problem
         if (phonemeIndex == -1) {
@@ -258,10 +260,10 @@ function convertToCue(ipa, phonemeIndex) {
     }
     if (handshape != "") {
         cueNotation.push(handshape + "s");
+        // Don't allow liason for next sentence
+        phonemeIndex++;
     }
-    // Keep phonemes for each sentence separate
-    phonemes.push(" ");
-    return phonemeIndex + 1;
+    return phonemeIndex;
 }
 
 function processForm() {
