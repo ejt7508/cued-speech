@@ -1,6 +1,7 @@
 function displayForm(unknownGroup, cleanInput, unknownIndicesGroup, unknownOptionsGroup) {
     // Clear content from previous usage
     document.getElementById("formContent").innerHTML = "";
+    document.getElementById("formSubmit").classList.remove("error");
     // Make form visible
     openForm();
 

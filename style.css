@@ -15,7 +15,7 @@ h1 {
 }
 #window {
     width: 100%;
-    height: 65vw;
+    height: 90vw;
     max-width: 950px;
     max-height: 500px;
     /*min-height: 250px;*/
@@ -46,12 +46,16 @@ h1 {
     }
     #window #face {
         display: unset;
-        width: 55%;
+        width: 62%;
+        max-width: 400px;
+        /*width: 380px;*/
     }
     #window #hand {
-        left: 58%;
+        left: 50%;
         top: 35%;
         width: 40%;
+        /*width: 266px;*/
+        max-width: 300px;
         /* m
         left: 36%;
         top: 10%;*/

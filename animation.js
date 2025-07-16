@@ -113,25 +113,25 @@ function display() {
 
     const staticPositions = {
         "m": {
-            default: ["56%", "10%"],
-            "1": ["54%", "12%"],
-            "6": ["54%", "13%"],
-            "8": ["55%", "7%"],
+            default: [56, 10],
+            "1": [54, 12],
+            "6": [54, 13],
+            "8": [55, 7],
         },
         "c": {
-            default: ["49%", "27%"],
-            "1": ["47%", "29%"],
-            "6": ["47%", "30%"],
-            "8": ["44%", "35%"],
+            default: [49, 27],
+            "1": [47, 29],
+            "6": [47, 30],
+            "8": [44, 35],
         },
         "t": {
-            default: ["49%", "40%"],
-            "1": ["47%", "42%"],
-            "6": ["47%", "43%"],
-            "8": ["44%", "46%"],
+            default: [49, 40],
+            "1": [47, 42],
+            "6": [47, 43],
+            "8": [44, 46],
         },
         "s": {
-            default: ["70%", "35%"]
+            default: [70, 35]
         }
     };
 
@@ -141,9 +141,12 @@ function display() {
 
     function applyPosition(posCode, shape = handshape) {
         const posSet = staticPositions[posCode];
-        const [left, top] = posSet[shape] || posSet.default;
-        hand.style.left = left;
-        hand.style.top = top;
+        let [left, top] = posSet[shape] || posSet.default;
+        if (window.innerWidth <= 800) {
+            left -= 18;
+        }
+        hand.style.left = left + "%";
+        hand.style.top = top + "%";
     }
 
     // Animate Position

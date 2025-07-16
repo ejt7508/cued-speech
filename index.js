@@ -312,7 +312,7 @@ function insertAtCursor(myField, myValue) {
         myField.selectionStart = myField.selectionEnd = newCursorPos;
 
         // Ensure field stays focused after insertion
-        myField.focus();
+        myField.focus({preventScroll: true});
     } else {
         // Fallback for older browsers
         myField.value += myValue;
