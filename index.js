@@ -9,6 +9,8 @@ var sentences = [];
 var cueNotation = [];
 var phonemes = [];
 
+var checkbox = document.getElementById('inputIPA');;
+
 // Fetch JSON data
 fetch('en_US copy.json')
 .then(response => response.json())
@@ -19,12 +21,10 @@ fetch('en_US copy.json')
     window.getCuedSpeech = function() {
         let resultIPA = document.getElementById('resultIPA');
         let resultCued = document.getElementById('resultCued');
-        let windowText = document.getElementById('window-text');
 
         // Clear content from previous usage
         resultIPA.innerHTML = "";
         resultCued.innerHTML = "";
-        windowText.innerHTML = "";
         clearInterval(intervalId);
 
         let icon = document.getElementById('pause');
@@ -60,6 +60,11 @@ fetch('en_US copy.json')
         let index = 0;
 
         sentences.every((sentence) => {
+            if(checkbox.checked) {
+                ipaList.push(sentence.split(" "));
+                return false;
+            }
+
             let sentenceIPA = [];
 
             unknown = [];
@@ -69,7 +74,6 @@ fetch('en_US copy.json')
             let words = sentence.split(" ");
             words.every((element)  => {
                 element = element.toLowerCase();
-                console.log(element);
                 let ipa = `${pronunciationData[element]}`;
             
                 if (element in pronunciationData) {
@@ -117,7 +121,9 @@ fetch('en_US copy.json')
             }
             unknownGroup.push(unknown);
             unknownIndicesGroup.push(unknownIndices);
-            unknownOptionsGroup.push(unknownOptions);
+            if (unknownOptions.length != 0) {
+                unknownOptionsGroup.push(unknownOptions);
+            }
 
             ipaList.push(sentenceIPA);
             return true;
@@ -127,7 +133,7 @@ fetch('en_US copy.json')
             return;
         }
         // Some pronunciations not known, need user input
-        if (unknownOptions.length != 0) {
+        if (unknownOptionsGroup.length != 0) {
             displayForm(unknownGroup, cleanInput, unknownIndicesGroup, unknownOptionsGroup);
         }
         else {
@@ -138,7 +144,6 @@ fetch('en_US copy.json')
 })
 .catch(error => console.error('Error fetching the JSON file:', error));
 
-
 function processInput() {
     // reset values
     cueNotation = [];
@@ -146,18 +151,28 @@ function processInput() {
     let formIndex = 0;
     let completeIPA = "";
     let phonemeIndex = 0;
+    let success = true;
 
     ipaList.forEach((sentenceIPA, sentenceIndex) => {
         sentenceIPA.forEach((element, index) => {
             // IPA hasn't been set OR is being changed through form
-            if (element == "" || unknownGroup[sentenceIndex].includes(sentences[sentenceIndex].split(" ")[index])) {
+            if (!checkbox.checked && (element == "" || unknownGroup[sentenceIndex].includes(sentences[sentenceIndex].split(" ")[index]))) {
                 sentenceIPA[index] = document.getElementsByClassName("buttonGroup")[formIndex].querySelector(".ipaButton.selected").dataset.value;
                 formIndex++;
             }
             completeIPA += sentenceIPA[index].replaceAll('/', '').replaceAll('ˈ', '') + " ";
         });
+        console.log(sentenceIPA);
         phonemeIndex = convertToCue(sentenceIPA.join(" "), phonemeIndex);
+        // problem
+        if (phonemeIndex == -1) {
+            success = false
+            return false;
+        }
     });
+    if (!success) {
+        return;
+    }
     console.log(phonemes);
     completeIPA = "/" + completeIPA.slice(0, -1) + "/";
     console.log(completeIPA);
@@ -173,9 +188,10 @@ function processInput() {
 }
 
 function convertToCue(ipa, phonemeIndex) {
-    let consonants = ["d", "p", "ʒ", "ð", "k", "v", "z", "s", "h", "ɹ", "hw", "b", "n", "m", "t", "f", "w", "ʃ", "ɫ", "θ", "dʒ", "ɡ", "j", "ŋ", "tʃ"];
+    let consonants = ["d", "p", "ʒ", "ð", "k", "v", "z", "s", "h", "ɹ", "hw", "b", "n", "m", "t", "f", "w", "ʃ", "ɫ", "l", "θ", "dʒ", "ɡ", "g", "j", "ŋ", "tʃ"];
     let vowels = ["i", "ɝ", "ɔ", "u", "ɛ", "ʊ", "ɪ", "æ", "oʊ", "ɑ", "ə", "ɔɪ", "eɪ", "aɪ", "aʊ", "o", "e", "a"];
-    ipa = ipa.replaceAll('/', '').replaceAll('ˈ', '');
+    // remove all unnecessary characters
+    ipa = ipa.replaceAll('/', '').replaceAll('ˈ', '').replaceAll(' ', '').replaceAll('ˌ', '');
     let handshape = "";
     let position = "";
     let i = 0;
@@ -188,6 +204,10 @@ function convertToCue(ipa, phonemeIndex) {
                 symbol = nextSymbol;
                 i++;
             }
+        }
+        if (!consonants.includes(symbol) && !vowels.includes(symbol)) {
+            document.getElementById("resultIPA").innerHTML = `<strong>Symbol "` + symbol + `" not found.</strong>`;
+            return -1;
         }
         if (consonants.includes(symbol) && handshape != "") {
             phonemeIndex++;
@@ -213,8 +233,8 @@ function convertToCue(ipa, phonemeIndex) {
                 case "s": case "h": case "ɹ": handshape = "3"; break;
                 case "hw": case "b": case "n": handshape = "4"; break;
                 case "m": case "t": case "f": handshape = "5"; break;
-                case "w": case "ʃ": case "ɫ": handshape = "6"; break;
-                case "θ": case "dʒ": case "ɡ": handshape = "7"; break;
+                case "w": case "ʃ": case "ɫ": case "l": handshape = "6"; break;
+                case "θ": case "dʒ": case "ɡ": case "g": handshape = "7"; break;
                 case "j": case "ŋ": case "tʃ": handshape = "8"; break;
             }
         }
@@ -223,7 +243,7 @@ function convertToCue(ipa, phonemeIndex) {
                 case "i": case "ɝ": position = "m"; break;
                 case "ɔ": case "u": case "ɛ": position = "c"; break;
                 case "ʊ": case "ɪ": case "æ": position = "t"; break;
-                case "oʊ": case "ɑ": case "o": position = "sf"; break;
+                case "oʊ": case "ɑ": case "a": case "o": position = "sf"; break;
                 case "ə": position = "sd"; break;
                 case "ɔɪ": case "eɪ": position = "c-5t"; break;
                 case "aɪ": case "aʊ": position = "s-5t"; break;
@@ -240,10 +260,10 @@ function convertToCue(ipa, phonemeIndex) {
     }
     if (handshape != "") {
         cueNotation.push(handshape + "s");
+        // Don't allow liason for next sentence
+        phonemeIndex++;
     }
-    // Keep phonemes for each sentence separate
-    phonemes.push(" ");
-    return phonemeIndex + 1;
+    return phonemeIndex;
 }
 
 function processForm() {
@@ -269,3 +289,35 @@ function processForm() {
     }
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+    const IPAselectors = document.querySelectorAll('.IPAselect');
+
+    IPAselectors.forEach(IPAselector => {
+        IPAselector.addEventListener('click', () => {
+            insertAtCursor(document.getElementById('wordInput'), IPAselector.value);
+        });
+    });
+});
+
+function insertAtCursor(myField, myValue) {
+    // For modern browsers
+    if (myField.selectionStart || myField.selectionStart === 0) {
+        let startPos = myField.selectionStart;
+        let endPos = myField.selectionEnd;
+
+        myField.value = myField.value.substring(0, startPos)
+            + myValue
+            + myField.value.substring(endPos);
+
+        // Move cursor to just after inserted text
+        const newCursorPos = startPos + myValue.length;
+        myField.selectionStart = myField.selectionEnd = newCursorPos;
+
+        // Ensure field stays focused after insertion
+        myField.focus({preventScroll: true});
+    } else {
+        // Fallback for older browsers
+        myField.value += myValue;
+        myField.focus();
+    }
+}

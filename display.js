@@ -1,6 +1,7 @@
 function displayForm(unknownGroup, cleanInput, unknownIndicesGroup, unknownOptionsGroup) {
     // Clear content from previous usage
     document.getElementById("formContent").innerHTML = "";
+    document.getElementById("formSubmit").classList.remove("error");
     // Make form visible
     openForm();
 
@@ -92,6 +93,10 @@ function openForm() {
     toggleTabAccess(true);
 }
 
+function viewIPA() {
+    document.getElementById("IPAselector").style.display = checkbox.checked ? 'flex' : 'none';
+}
+
 // Disable/enable tabbing below overlay
 function toggleTabAccess(disable) {
     let allElements = document.querySelectorAll("body *:not(.form-popup *):not(#overlay)");
@@ -137,18 +142,16 @@ function getScrollbarWidth() {
 window.onload = getScrollbarWidth;
 
 // Allow user to press enter to submit
-document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById("wordInput").addEventListener("keypress", function (event) {
-        if (event.key === "Enter" && !event.shiftKey) {
-            event.preventDefault(); // Prevents new line in the textarea
-            document.getElementById("submit").click()
-        }
-    });
-    document.getElementById("wordInput").addEventListener("input", function (event) {
-        let button = document.getElementById("submit");
-        if (button.innerHTML != "Submit") {
-            button.innerHTML = "Submit";
-            button.onclick = getCuedSpeech;
-        }
-    });
+document.getElementById("wordInput").addEventListener("keypress", function (event) {
+    if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault(); // Prevents new line in the textarea
+        document.getElementById("submit").click()
+    }
+});
+document.getElementById("wordInput").addEventListener("input", function (event) {
+    let button = document.getElementById("submit");
+    if (button.innerHTML != "Submit") {
+        button.innerHTML = "Submit";
+        button.onclick = getCuedSpeech;
+    }
 });

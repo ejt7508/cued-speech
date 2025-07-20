@@ -4,6 +4,9 @@ body {
     height: 100%;
     color: black;
 }
+main {
+    margin-bottom: 80px;
+}
 h1 {
     font-size: 1.6em;
     margin: 0;
@@ -11,17 +14,54 @@ h1 {
     text-align: center;
 }
 #window {
-    width: 80%;
-    min-width: 300px;
-    max-width: 700px;
+    width: 100%;
+    height: 90vw;
+    max-width: 950px;
+    max-height: 500px;
     /*min-height: 250px;*/
-    padding-top: max(100px, 10%);
-    padding-bottom: max(100px, 10%);
     border: 1px solid black;
-    text-align: center;
     margin: auto;
-    /*margin-bottom: 50px;*/
+    text-align: center;
+    padding-bottom: 30px;
+    position: relative;
 }
+#window #face {
+    margin: auto;
+    width: 40%;
+    max-width: 400px;
+    display: block;
+}
+#window #hand {
+    position: absolute;
+    left: 70%;
+    top: 36%;
+    width: 28%;
+    height: auto;
+    max-width: 300px;
+    transition: .5s;
+}
+@media screen and (max-width: 800px) {
+    #window {
+        text-align: unset;
+    }
+    #window #face {
+        display: unset;
+        width: 62%;
+        max-width: 400px;
+        /*width: 380px;*/
+    }
+    #window #hand {
+        left: 50%;
+        top: 35%;
+        width: 40%;
+        /*width: 266px;*/
+        max-width: 300px;
+        /* m
+        left: 36%;
+        top: 10%;*/
+    }
+}
+
 #window span {
     font-size: 2em;
     margin: auto;
@@ -36,23 +76,40 @@ h1 {
     /* can't select between buttons */
     user-select: none;
 }
-#window-buttons i {
-    cursor: pointer;
-    font-size: 1.6em;
-    padding: 10px 20px 0px 20px;
+
+#window-buttons button {
+    background: transparent;
+    border: none;
+    width: 50px;
+    margin: 5px 10px;
+    transition: transform .1s;
 }
+#window-buttons button:active {
+    transform: scale(.90);
+}
+#window-buttons i {
+    font-size: 1.6em;
+}
+#window-buttons i:focus {
+    border: 1px solid black;
+}
+
 .input {
     /* center text input and submit button */
     text-align: center;
+    margin: auto;
+    margin-bottom: 40px;
+    width: 80%;
+    max-width: 600px;
+    max-height: 200px;
+    padding: 5px;
 }
 textarea {
+    box-sizing: border-box;
+    width: 100%;
     /* remove adjustable sizing from corner */
     resize: none;
-    /* make same width as #window */
     padding: 10px;
-    width: calc(40% - 20px);
-    min-width: calc(350px - 20px);
-    max-width: calc(800px - 20px);
     border: 1px solid black;
     border-radius: 10px;
     margin-bottom: 10px;
@@ -64,11 +121,101 @@ textarea {
 textarea:focus {
     outline-color: black;
 }
+
+.spacer {
+  width: 100px; /* same width as the checkbox container */
+}
 #submit {
     padding: 5px;
     min-width: 100px;
-    margin-bottom: 40px;
+    margin: 0 auto;
 }
+
+.input-options {
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+@media (max-width:700px) {
+    .input-options {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+.checkbox-container {
+    /* put checkbox to right of submit */
+    display: flex;
+    position: relative;
+    align-items: center;
+    padding-left: 30px;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    height: 25px;
+    width: 25px;
+    border: 1px solid black;
+    background-color: #eee;
+    transition: background-color 0.2s ease;
+    box-sizing: border-box;
+}
+.checkbox-container input:focus-visible + .checkmark {
+    outline: 1.5px solid black;
+}
+/* On mouse-over, add a grey background color */
+.checkbox-container:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.checkbox-container input:checked ~ .checkmark {
+    background-color: #2196F3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.checkbox-container .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
 .result {
     letter-spacing: .08em;
     word-spacing: .4em;
@@ -85,12 +232,18 @@ textarea:focus {
     margin-bottom: 5px;
 }
 button {
+    all: unset;
+    background-color: #f0f0f0;
+    text-align: center;
     font-size: inherit;
     font-family: inherit;
     border: 1px solid black;
     cursor: pointer;
     transition: 0.2s ease;
-    color: black !important;
+    color: black;
+}
+button:focus {
+    outline: revert;
 }
 button:hover {
     background-color: #e0e0e0;
@@ -193,8 +346,6 @@ button:hover {
 }
 .ipaButton {
     padding: 10px 10px;
-    border: 1px solid #ccc;
-    background-color: #f8f8f8;
     cursor: pointer;
     transition: 0.2s;
     min-width: 100px;
@@ -205,13 +356,61 @@ button:hover {
     background-color: #e0e0e0;
 }
 .ipaButton.selected {
-    background-color: #007bff;
+    background-color: #8b8b8b;
     color: white;
-    border-color: #0056b3;
 }
 .error .ipaButton{
     color: red;
 }
 .error.btn {
     color:rgba(0, 0, 0, 0.384)
+}
+
+
+
+#IPAselector {
+    display: none;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+#IPAselector h3 {
+    text-align: center;
+    margin: 0px;
+}
+.ipa-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    gap: 8px;
+    max-width: 350px;
+    margin: 20px;
+}
+
+.IPAselect {
+    padding: 10px;
+    border-radius: 8px;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.IPAselect:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transform: translateY(-2px);
+}
+
+.IPAselect:active {
+    transform: scale(0.95);
+}
+
+/*
+.IPAselect.consonant {
+  border-color: #bde9fd;
+}
+
+.IPAselect.vowel {
+  border-color: #f9d6a8;
+}
+  */
+.hidden {
+    display: none;
 }

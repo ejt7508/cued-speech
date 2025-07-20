@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="style.css">
 
     <!-- JavaScript -->
-    <script type="text/javascript" src="index.js"></script>
-    <script type="text/javascript" src="display.js"></script>
-    <script type="text/javascript" src="animation.js"></script>
+    <script type="text/javascript" src="index.js" defer></script>
+    <script type="text/javascript" src="display.js" defer></script>
+    <script type="text/javascript" src="animation.js" defer></script>
 
     <!-- Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,28 +20,91 @@
     <script src="https://kit.fontawesome.com/64824a9b49.js" crossorigin="anonymous"></script>
 </head>
 <body>
-
+    <main>
     <div class="overlay" id="overlay"></div>
     <h1>Cued Speech Transliterator</h1>
 
     <div id="window">
-        <span id="window-text"></span>
+        <!--<span id="window-text"></span>-->
+        <img src="images/face.png" alt="face" id="face">
+        <img src="images/5.png" alt="hand" id="hand">
     </div>
     <div id="window-buttons">
-        <i class="fa-solid fa-backward" onclick="restart()"></i>
-        <i class="fa-solid fa-backward-step" onclick="previous()"></i>
-        <i id="pause" class="fa-solid fa-pause" onclick="pause(this)"></i>
-        <i class="fa-solid fa-forward-step" onclick="next()"></i>
+        <button onclick="restart()"><i class="fa-solid fa-backward"></i></button>
+        <button onclick="previous()"><i class="fa-solid fa-backward-step"></i></button>
+        <button onclick="pause(this)"><i id="pause" class="fa-solid fa-pause"></i></button>
+        <button onclick="next()"><i class="fa-solid fa-forward-step"></i></button>
     </div>
     <div class="result" id="result">
         <p id="resultCued"></p>
         <p id="resultIPA"></p>
     </div>
     <!-- Input field to search for a word -->
-     <div class="input">
-        <textarea id="wordInput" placeholder="Enter sentence here..." rows="4" cols="50" maxlength="100"></textarea> <br>
-        <button id="submit" onclick="getCuedSpeech()">Submit</button>
-     </div>
+    <div class="input">
+        <textarea id="wordInput" placeholder="Enter sentence here..." rows="4" cols="50" maxlength="100"></textarea>
+        <div class="input-options">
+            <div class="spacer"></div> <!-- invisible spacer -->
+            <button id="submit" onclick="getCuedSpeech()">Submit</button>
+            <label class="checkbox-container" for="inputIPA"> Input IPA
+                <input type="checkbox" id="inputIPA" onclick="viewIPA()">
+                <span class="checkmark"></span>
+            </label>
+        </div>
+    </div>
+    <div id="IPAselector">
+        <!-- consonants -->
+        <div>
+            <h3>Consonants</h3>
+            <div id="IPAselector-consonants" class="ipa-group">
+                <button class="IPAselect consonant" value="d">d</button>
+                <button class="IPAselect consonant" value="p">p</button>
+                <button class="IPAselect consonant" value="ʒ">zh</button>
+                <button class="IPAselect consonant" value="ð">TH</button>
+                <button class="IPAselect consonant" value="k">k</button>
+                <button class="IPAselect consonant" value="v">v</button>
+                <button class="IPAselect consonant" value="z">z</button>
+                <button class="IPAselect consonant" value="s">s</button>
+                <button class="IPAselect consonant" value="h">h</button>
+                <button class="IPAselect consonant" value="ɹ">r</button>
+                <button class="IPAselect consonant" value="hw">wh</button>
+                <button class="IPAselect consonant" value="b">b</button>
+                <button class="IPAselect consonant" value="n">n</button>
+                <button class="IPAselect consonant" value="m">m</button>
+                <button class="IPAselect consonant" value="t">t</button>
+                <button class="IPAselect consonant" value="f">f</button>
+                <button class="IPAselect consonant" value="w">w</button>
+                <button class="IPAselect consonant" value="ʃ">sh</button>
+                <button class="IPAselect consonant" value="ɫ">l</button>
+                <button class="IPAselect consonant" value="θ">th</button>
+                <button class="IPAselect consonant" value="dʒ">j</button>
+                <button class="IPAselect consonant" value="ɡ">g</button>
+                <button class="IPAselect consonant" value="j">y</button>
+                <button class="IPAselect consonant" value="ŋ">ng</button>
+                <button class="IPAselect consonant" value="tʃ">ch</button>
+            </div>
+        </div>
+        <div>
+            <h3>Vowels</h3>
+            <div id="IPAselector-vowels" class="ipa-group">
+            <button class="IPAselect vowel" value="i">ee</button>
+            <button class="IPAselect vowel" value="ɝ">ur</button>
+            <button class="IPAselect vowel" value="ɔ">aw</button>
+            <button class="IPAselect vowel" value="u">ue</button>
+            <button class="IPAselect vowel" value="ɛ">e</button>
+            <button class="IPAselect vowel" value="ʊ">oo</button>
+            <button class="IPAselect vowel" value="ɪ">i</button>
+            <button class="IPAselect vowel" value="æ">a</button>
+            <button class="IPAselect vowel" value="oʊ">oe</button>
+            <button class="IPAselect vowel" value="ɑ">ah</button>
+            <button class="IPAselect vowel" value="ə">uh</button>
+            <button class="IPAselect vowel" value="ɔɪ">oi</button>
+            <button class="IPAselect vowel" value="eɪ">ay</button>
+            <button class="IPAselect vowel" value="aɪ">igh</button>
+            <button class="IPAselect vowel" value="aʊ">ou</button>
+            </div>
+        </div>
+    </div>
+    
 
 
 
@@ -73,6 +136,6 @@
         */
         
     </script>
-
+    </main>
 </body>
 </html>
