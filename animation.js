@@ -171,7 +171,7 @@ function display() {
         }
 
         setTimeout(() => {
-            hand.src = "images/" + handImages[5];
+            hand.src = "new_images/" + handImages[5];
             applyPosition("t");
         }, 300);
     } 
