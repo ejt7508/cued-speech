@@ -104,11 +104,11 @@ function display() {
         "1": "one.png",
         "2": "two.png",
         "3": "three.png",
-        "4": "4.png",
+        "4": "four.png",
         "5": "5.png",
-        "6": "6.png",
-        "7": "7.png",
-        "8": "8.png",
+        "6": "six.png",
+        "7": "seven.png",
+        "8": "eight.png",
     };
 
     const staticPositions = {
