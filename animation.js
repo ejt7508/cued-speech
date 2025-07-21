@@ -105,7 +105,7 @@ function display() {
         "2": "two.png",
         "3": "three.png",
         "4": "four.png",
-        "5": "5.png",
+        "5": "five.png",
         "6": "six.png",
         "7": "seven.png",
         "8": "eight.png",
@@ -136,7 +136,7 @@ function display() {
     };
 
     let [handshape, position] = [cueNotation[animation_index][0], cueNotation[animation_index].slice(1)];
-    hand.src = "images/" + handImages[handshape];
+    hand.src = "new_images/" + handImages[handshape];
 
 
     function applyPosition(posCode, shape = handshape) {
