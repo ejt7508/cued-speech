@@ -101,14 +101,14 @@ function display() {
 
     // Helper Lookup Tables
     const handImages = {
-        "1": "1.PNG",
-        "2": "2.PNG",
-        "3": "3.PNG",
-        "4": "4.PNG",
+        "1": "one.png",
+        "2": "two.png",
+        "3": "three.png",
+        "4": "4.png",
         "5": "5.png",
-        "6": "6.PNG",
-        "7": "7.PNG",
-        "8": "8.PNG",
+        "6": "6.png",
+        "7": "7.png",
+        "8": "8.png",
     };
 
     const staticPositions = {
