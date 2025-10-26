@@ -27,11 +27,6 @@ fetch('en_US copy.json')
         resultCued.innerHTML = "";
         clearInterval(intervalId);
 
-        let icon = document.getElementById('pause');
-        icon.classList.remove("fa-play");
-        icon.classList.add("fa-pause");
-        icon.setAttribute("onClick", "pause(this)");
-
         let accept = true;
 
         ipaList = [];
@@ -182,9 +177,8 @@ function processInput() {
     //convertToCue(completeIPA);
 
     // Start animation
-    playing = true;
     animation_index = 0;
-    startAnimation();
+    play();
 }
 
 function convertToCue(ipa, phonemeIndex) {

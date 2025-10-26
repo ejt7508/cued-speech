@@ -49,32 +49,11 @@ function setIndex(amount) {
     display();
 }
 
-function play(button) {
-    let icon = document.getElementById('pause');
-    if (!playing) {
-        /* change icon */
-        icon.classList.remove("fa-play");
-        icon.classList.add("fa-pause");
-        button.setAttribute("onClick", "pause(this)");
-
-        playing = true;
-
-        if (animation_index >= cueNotation.length - 1) {
-            animation_index = 0;
-        }
-
-        startAnimation();
-    }
-}
-
 function startAnimation() {
     prevPos = "";
     prevShape = "";
-    if (playing) {
-        display();
-
-        resetAnimationTimer();
-    }
+    display();           // Show current frame immediately
+    resetAnimationTimer(); // Start interval only if playing
 }
 
 function display() {
@@ -195,15 +174,42 @@ function display() {
     prevShape = handshape;
 }
 
-function pause(button) {
-    let icon = document.getElementById('pause');
-    // Change icon
+function pause() {
+    if (!playing) return; // Already paused
+    console.log("pause");
+    playing = false;
+
+    const icon = document.getElementById('pause');
     icon.classList.remove("fa-pause");
     icon.classList.add("fa-play");
-    button.setAttribute("onClick", "play(this)");
 
-    playing = false;
     clearInterval(intervalId); // Stop animation loop
+}
+
+
+function play() {
+    if (playing) return; // Already playing
+    console.log("play");
+    playing = true;
+
+    const icon = document.getElementById('pause');
+    icon.classList.remove("fa-play");
+    icon.classList.add("fa-pause");
+
+    // Restart from beginning if at the end
+    if (animation_index >= cueNotation.length - 1) {
+        animation_index = 0;
+    }
+
+    startAnimation();
+}
+
+function togglePlayPause() {
+    if (playing) {
+        pause();
+    } else {
+        play();
+    }
 }
 
 function resetAnimationTimer() {
