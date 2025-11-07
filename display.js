@@ -3,7 +3,7 @@ function displayForm(unknownGroup, cleanInput, unknownIndicesGroup, unknownOptio
     document.getElementById("formContent").innerHTML = "";
     document.getElementById("formSubmit").classList.remove("error");
     // Make form visible
-    openForm();
+    // openForm();
 
     let formContent = document.getElementById('formContent');
 
@@ -36,13 +36,18 @@ function displayForm(unknownGroup, cleanInput, unknownIndicesGroup, unknownOptio
             buttonGroup.classList.add("buttonGroup");
     
             let unknownOptions = unknownOptionsGroup[groupIndex];
-            unknownOptions[index].forEach((ipa) => {
+            unknownOptions[index].forEach((ipa, buttonIndex) => {
                 let ipaButton = document.createElement("button");
                 ipaButton.type = "button";
                 ipaButton.classList.add("ipaButton");
                 ipaButton.innerHTML = ipa;
                 ipaButton.dataset.word = element;
                 ipaButton.dataset.value = ipa;
+
+                // if word starts with wh, choose second option; otherwise, choose first option
+                if ((!element.startsWith("wh") && buttonIndex == 0) || (element.startsWith("wh") && buttonIndex == 1)) {
+                    ipaButton.classList.add("selected");
+                }
     
                 // Click to select
                 ipaButton.addEventListener("click", () => {

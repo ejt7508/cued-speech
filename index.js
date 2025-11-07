@@ -129,12 +129,12 @@ fetch('en_US copy.json')
         }
         // Some pronunciations not known, need user input
         if (unknownOptionsGroup.length != 0) {
+            let submitButton = document.getElementById("submit");
+            submitButton.innerHTML = "Change Pronunciation";
+            submitButton.onclick = openForm;
             displayForm(unknownGroup, cleanInput, unknownIndicesGroup, unknownOptionsGroup);
         }
-        else {
-            processInput();
-        }
-
+        processInput();
     };
 })
 .catch(error => console.error('Error fetching the JSON file:', error));
@@ -277,9 +277,6 @@ function processForm() {
     if (valid) {
         processInput();
         closeForm();
-        let submitButton = document.getElementById("submit");
-        submitButton.innerHTML = "Change Pronunciation";
-        submitButton.onclick = openForm;
     }
 }
 
