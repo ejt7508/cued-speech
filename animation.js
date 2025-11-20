@@ -115,7 +115,7 @@ function display() {
     };
 
     let [handshape, position] = [cueNotation[animation_index][0], cueNotation[animation_index].slice(1)];
-    hand.src = "new_images/" + handImages[handshape];
+    hand.src = "hand_images/" + handImages[handshape];
 
 
     function applyPosition(posCode, shape = handshape) {

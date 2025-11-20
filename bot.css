@@ -1,18 +1,3 @@
-body {
-    /*color:chartreuse;*/
-    font-family: 'Segoe UI', Tahoma, sans-serif;
-    height: 100%;
-    color: black;
-}
-main {
-    margin-bottom: 80px;
-}
-h1 {
-    font-size: 1.6em;
-    margin: 0;
-    margin-bottom: 20px;
-    text-align: center;
-}
 #window {
     width: 100%;
     height: 90vw;
@@ -24,6 +9,7 @@ h1 {
     text-align: center;
     padding-bottom: 30px;
     position: relative;
+    background: white;
 }
 #window #face {
     margin: auto;
@@ -83,6 +69,7 @@ h1 {
     width: 50px;
     margin: 5px 10px;
     transition: transform .1s;
+    color: #33607E;
 }
 #window-buttons button:active {
     transform: scale(.90);
@@ -174,7 +161,7 @@ textarea:focus {
     height: 25px;
     width: 25px;
     border: 1px solid black;
-    background-color: #eee;
+    background-color: #BEE1ED;
     transition: background-color 0.2s ease;
     box-sizing: border-box;
 }
@@ -183,12 +170,12 @@ textarea:focus {
 }
 /* On mouse-over, add a grey background color */
 .checkbox-container:hover input ~ .checkmark {
-    background-color: #ccc;
+    background-color: #82BFD1;
 }
 
 /* When the checkbox is checked, add a blue background */
 .checkbox-container input:checked ~ .checkmark {
-    background-color: #2196F3;
+    background-color: #82BFD1;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */

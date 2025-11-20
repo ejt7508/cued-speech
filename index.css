@@ -1,0 +1,96 @@
+body {
+    /*color:chartreuse;*/
+    font-family: 'Red Hat Text', Tahoma, sans-serif;
+    height: 100%;
+    color: black;
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+    color: unset;
+}
+
+main {
+    margin-bottom: 80px;
+}
+h1, h2, h3 {
+    font-family: 'Red Hat Display', serif;
+}
+h1 {
+    font-size: 1.6em;
+    margin: 0;
+    margin-bottom: 20px;
+    text-align: center;
+}
+header {
+    width: 100%;
+    left: 0;
+    font-size: 1.1em;
+    /* keep nav bar on top */
+    z-index: 100;
+    /* height of header */
+    height: 60px;
+
+    /* keep logo and nav bar next to each other */
+    display: flex;
+    /* put links on right side of nav bar */
+    justify-content: space-between;
+
+    background-color: #33607E;
+    color: white;
+}
+.home-link {
+    display: flex;
+    align-items: center;
+    font-family: 'Red Hat Display', serif;
+    font-weight: bold;
+    font-size: 1.3em;
+    margin-left: 30px;
+}
+.home-link img {
+    height: 100%;
+    max-height: 60px;
+    margin-right: 10px;
+}
+nav {
+    /* put some space between nav and end of page */
+    margin-right: 30px;
+    height: 100%;
+}
+nav > ul {
+    /* remove bullet points */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    /* ensure links are next to each other */
+    display: flex;
+    gap: 2rem;
+    height: 100%;
+    align-items: center;
+}
+.hero-image {
+    margin: 0;
+    height: 100vh;
+    /* establish hero image styling */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* changes with screen size */
+    display: flex;
+    align-items: center;
+    /* image can grow and shrink but not go past certain height */
+    max-height: 500px;
+    background-color: rgba(69, 69, 69, 0.4);
+    background-blend-mode: darken;
+    background-image: url('images/hands_together.jpg');
+}
+
+.hero-text {
+    margin: auto;
+    text-align: center;
+    width: 300px;
+    font-size: 2em;
+    font-weight:700;
+    color: white;
+}
