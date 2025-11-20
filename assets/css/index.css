@@ -83,7 +83,7 @@ nav > ul {
     max-height: 500px;
     background-color: rgba(69, 69, 69, 0.4);
     background-blend-mode: darken;
-    background-image: url('images/hands_together.jpg');
+    background-image: url('../images/hands_together.jpg');
 }
 
 .hero-text {
