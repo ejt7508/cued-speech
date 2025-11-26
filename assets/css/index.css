@@ -103,28 +103,39 @@ h2 {
     margin-top: 50px;
 }
 
-.section {
+.usage {
     display: flex;
     gap: 5%;
     justify-content: center;
     background-color: #73B0C2;
-    padding: 10px; 
+    padding: 20px; 
 }
-.textbox {
-    padding: 0px 20px 0 20px;
+.usage div {
+    padding: 10px 20px 10px 20px;
     width: 300px;
-    height: 200px;
     background-color: white;
     border-radius: 20px;
+    height: 200px;
+
+    box-shadow: 0 6px 6px rgb(0 0 0 / 20%), 0 0 20px rgb(0 0 0 / 20%);
+}
+.usage div h3 {
+    color: #315C77;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.usage div p {
+    margin-top: 0;
 }
 
 
 .learn {
     display: flex;
     justify-content: center;
-    gap: 50px;
-    width: 60%;
+    gap: 10%;
+    width: 80%;
     min-width: 600px;
+    max-width: 900px;
     margin: auto;
 }
 .learn div {
@@ -136,16 +147,12 @@ h2 {
     position: relative;
 }
 .learn img {
-    /* center image */
-    display: block;
-    margin: auto;
-
     border-radius: 20px;
     width: 100%;
     height: 200px;
     object-fit: cover;
 }
-.learn button {
+.learn a {
     position: absolute;
     color: #315C77;
     font-size: 1.1em;
@@ -154,16 +161,17 @@ h2 {
     border: 2px solid #315C77;
     padding: 10px;
     width: 100px;
+    transition: .5s;
+    text-align: center;
 
     /* center button */
     left: 0; 
     right: 0; 
     bottom: 20px;
     margin-inline: auto; 
-    transition: .5s;
 }
-.learn button:hover {
-    box-shadow: 0px 2px 8px #315C77;
+.learn a:hover {
+    box-shadow: 0px 2px 5px #315C77;
     transform: translateY(-2px);
 }
 
@@ -174,23 +182,19 @@ h2 {
     margin: auto;
 }
 .resources img {
-    /* center image */
-    display: block;
-    margin: auto;
-
-    width: 100%;
-    object-fit: cover;
-    overflow: hidden;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
 }
 .resources h2 {
-    margin-top: 0;
-    margin: auto;
+    margin: 0;
 }
-.resources button {
+.resources a {
     flex: 1;
     display: flex;
     height: 150px;
     align-items: center;
+    justify-content: center;
     padding: 10px;
     border: 5px solid #73B0C2;
     border-radius: 20px;
@@ -198,8 +202,8 @@ h2 {
     transition: .5s ease-in-out;
     background-color: white;
 }
-.resources button:hover {
-    box-shadow: 0px 2px 8px #548290;
+.resources a:hover {
+    box-shadow: 5px 5px 5px #315C77;
     transform: translateY(-5px);
     background-color: white;
 }
@@ -227,6 +231,7 @@ footer .icons {
     .textbox {
         margin: auto;
         width: 70%;
+        margin-bottom: 20px;
     }
     
     .learn {
