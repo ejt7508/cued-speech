@@ -11,6 +11,7 @@
     padding-bottom: 30px;
     position: relative;
     background: white;
+    box-sizing: border-box;
 }
 #window #face {
     margin: auto;
