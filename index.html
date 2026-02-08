@@ -3,139 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cued Speech Transliterator - Home</title>
-    <link rel="stylesheet" href="style.css">
+    <title>CueBot Home</title>
 
-    <!-- JavaScript -->
-    <script type="text/javascript" src="index.js" defer></script>
-    <script type="text/javascript" src="display.js" defer></script>
-    <script type="text/javascript" src="animation.js" defer></script>
+    <link rel="stylesheet" href="assets/css/index.css">
 
     <!-- Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+    
     <!-- Icons -->
     <script src="https://kit.fontawesome.com/64824a9b49.js" crossorigin="anonymous"></script>
 </head>
 <body>
+    <header>
+        <a href="index.html" class="home-link">
+            Cued Speech Transliterator
+        </a>
+        <nav>
+            <ul>
+                <!--
+                <li class="top-level">
+                    <div><a href="learn.html">Learn</a></div>
+                </li>-->
+                <li class="top-level">
+                    <div><a href="CueBot.html">CueBot</a></div>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <div class="hero-image">
+        <div class="hero-text">
+            <h1>Cued Speech</h1>
+            <p>Learn about the Cued Speech system for American English and its importance in the deaf community.</p>
+        </div>
+    </div>
     <main>
-    <div class="overlay" id="overlay"></div>
-    <h1>Cued Speech Transliterator</h1>
-
-    <div id="window">
-        <!--<span id="window-text"></span>-->
-        <img src="images/face.png" alt="face" id="face">
-        <img src="images/5.png" alt="hand" id="hand">
-    </div>
-    <div id="window-buttons">
-        <button onclick="restart()"><i class="fa-solid fa-backward"></i></button>
-        <button onclick="previous()"><i class="fa-solid fa-backward-step"></i></button>
-        <button onclick="togglePlayPause(this)"><i id="pause" class="fa-solid fa-pause"></i></button>
-        <button onclick="next()"><i class="fa-solid fa-forward-step"></i></button>
-    </div>
-    <div class="result" id="result">
-        <p id="resultCued"></p>
-        <p id="resultIPA"></p>
-    </div>
-    <!-- Input field to search for a word -->
-    <div class="input">
-        <textarea id="wordInput" placeholder="Enter sentence here..." rows="4" cols="50" maxlength="100"></textarea>
-        <div class="input-options">
-            <div class="spacer"></div> <!-- invisible spacer -->
-            <button id="submit" onclick="getCuedSpeech()">Submit</button>
-            <label class="checkbox-container" for="inputIPA"> Input IPA
-                <input type="checkbox" id="inputIPA" onclick="viewIPA()">
-                <span class="checkmark"></span>
-            </label>
-        </div>
-    </div>
-    <div id="IPAselector">
-        <!-- consonants -->
-        <div>
-            <h3>Consonants</h3>
-            <div id="IPAselector-consonants" class="ipa-group">
-                <button class="IPAselect consonant" value="d">d</button>
-                <button class="IPAselect consonant" value="p">p</button>
-                <button class="IPAselect consonant" value="ʒ">zh</button>
-                <button class="IPAselect consonant" value="ð">TH</button>
-                <button class="IPAselect consonant" value="k">k</button>
-                <button class="IPAselect consonant" value="v">v</button>
-                <button class="IPAselect consonant" value="z">z</button>
-                <button class="IPAselect consonant" value="s">s</button>
-                <button class="IPAselect consonant" value="h">h</button>
-                <button class="IPAselect consonant" value="ɹ">r</button>
-                <button class="IPAselect consonant" value="hw">wh</button>
-                <button class="IPAselect consonant" value="b">b</button>
-                <button class="IPAselect consonant" value="n">n</button>
-                <button class="IPAselect consonant" value="m">m</button>
-                <button class="IPAselect consonant" value="t">t</button>
-                <button class="IPAselect consonant" value="f">f</button>
-                <button class="IPAselect consonant" value="w">w</button>
-                <button class="IPAselect consonant" value="ʃ">sh</button>
-                <button class="IPAselect consonant" value="ɫ">l</button>
-                <button class="IPAselect consonant" value="θ">th</button>
-                <button class="IPAselect consonant" value="dʒ">j</button>
-                <button class="IPAselect consonant" value="ɡ">g</button>
-                <button class="IPAselect consonant" value="j">y</button>
-                <button class="IPAselect consonant" value="ŋ">ng</button>
-                <button class="IPAselect consonant" value="tʃ">ch</button>
-            </div>
-        </div>
-        <div>
-            <h3>Vowels</h3>
-            <div id="IPAselector-vowels" class="ipa-group">
-            <button class="IPAselect vowel" value="i">ee</button>
-            <button class="IPAselect vowel" value="ɝ">ur</button>
-            <button class="IPAselect vowel" value="ɔ">aw</button>
-            <button class="IPAselect vowel" value="u">ue</button>
-            <button class="IPAselect vowel" value="ɛ">e</button>
-            <button class="IPAselect vowel" value="ʊ">oo</button>
-            <button class="IPAselect vowel" value="ɪ">i</button>
-            <button class="IPAselect vowel" value="æ">a</button>
-            <button class="IPAselect vowel" value="oʊ">oe</button>
-            <button class="IPAselect vowel" value="ɑ">ah</button>
-            <button class="IPAselect vowel" value="ə">uh</button>
-            <button class="IPAselect vowel" value="ɔɪ">oi</button>
-            <button class="IPAselect vowel" value="eɪ">ay</button>
-            <button class="IPAselect vowel" value="aɪ">igh</button>
-            <button class="IPAselect vowel" value="aʊ">ou</button>
-            </div>
-        </div>
-    </div>
-    
-
-
-
-    <!--<button onclick="openForm()">Open Form</button>-->
-
-
-    <div class="form-popup" id="myForm">
-        <form class="form-container">
-            <button type="button" class="btnCancel" onclick="closeForm()">&#10006;</button>
-            <h3>Please select the intended pronunciation for each word:</h3>
-
-            <div id="formContent">
-
-            </div>
+        <h2>What is Cued Speech?</h2>
+        <p>
+            Cued Speech is a method of communication which visually represents spoken language using the hands and face. 
+            In other words, each sound in the English language can be conveyed using a specific hand shape and location 
+            on the face. Verbal speech is not actually required, as mouth movements can be used instead. There are separate 
+            systems for different languages and dialects, but this platform focuses on American English.
+        </p>
+        <p>
+            Cued Speech is a system, not a language. It is not a replacement of American Sign Language (ASL), 
+            but rather an additional communication option for deaf/hard-of-hearing individuals. In fact, 
+            both ASL and English in the form of Cued Speech can be learned as two separate languages.
+        </p>
         
-            <button type="button" id="formSubmit" class="btn" onclick="processForm()">Submit</button>
-        </form>
-    </div>
+        <h2>Why Use Cued Speech?</h2>
+        <div class="container">
+            <div class="info">
+                <h3>Literacy</h3>
+                <p>
+                    Many deaf adults struggle with reading and writing. Cued Speech provides full visual access to the 
+                    vocabulary, grammar, and structure of English.
+                </p>
+            </div>
+            <div class="info">
+                <h3>Understanding</h3>
+                <p>
+                    Since many sounds in the English language have the same mouth movement, relying on lipreading can 
+                    be a challenge. Cued Speech alleviates this by adding a visual cue to each sound.
+                </p>
+            </div>
+             <div class="info">
+                <h3>Access</h3>
+                <p>
+                    Since 90% of deaf children are born to hearing parents, early communication comes with many barriers. 
+                    Cued Speech can be learned in a short period of time, which helps prevent language deprivation.
+                </p>
+            </div>
+        </div>
 
-    <script>
-        /**
-        document.getElementById("wordInput").addEventListener("keypress", e => {
-            if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault();
+        <h2>How To Learn</h2>
+        <div class="learn">
+            <!--
+            <div>
+                <img src="cue-chart.jpg" alt="Cued Speech Chart">
+                <p>Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum</p>
+                <a href="learn.html">Learn</a>
+            </div>
+        -->
+            <div>
+                <img src="assets/images/cue_form.png" alt="Cued Speech Form">
+                <p>Type any word or sentence to see how it would be transliterated into Cued Speech!</p>
+                <a href="cueBot.html">CueBot</a>
+            </div>
+        </div>
 
-                getPronunciation();
-            }
-        });
-        */
-        
-    </script>
+        <h2>Additional Resources</h2>
+        <div class="resources">
+            <a href="https://cuedspeech.org/" target="_blank"><img src="assets/images/ncsa.png" alt="National Cued Speech Association Logo"></a>
+            <a href="https://cuecollege.org/" target="_blank"><img src="assets/images/cuecollege.png" alt="Cue College Logo"></a>
+            <!--<a href="resources.html"><h2>More</h2></a>-->
+        </div>
     </main>
+    <footer>
+        <div class="icons">
+            <a href="mailto:ejt7508@rit.edu"><i class="fa-regular fa-envelope"></i></a>
+            <a href="https://github.com/ejt7508/cued-speech" target="_blank"><i class="fa-brands fa-github"></i></a>
+        </div>
+        <p>Copyright &copy; 2026 Elaina Trapatsos</p>
+    </footer>
 </body>
 </html>

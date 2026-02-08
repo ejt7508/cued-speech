@@ -1,0 +1,330 @@
+body {
+    /*color:chartreuse;*/
+    font-family: 'Red Hat Text', Tahoma, sans-serif;
+    height: 100%;
+    color: black;
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+    color: unset;
+}
+
+main {
+    margin-bottom: 80px;
+}
+h1, h2, h3 {
+    font-family: 'Red Hat Display', serif;
+}
+
+header {
+    width: 100%;
+    left: 0;
+    font-size: 1.1em;
+    /* keep nav bar on top */
+    z-index: 100;
+    /* height of header */
+    height: 60px;
+
+    /* keep logo and nav bar next to each other */
+    display: flex;
+    /* put links on right side of nav bar */
+    justify-content: space-between;
+
+    background-color: #315C77;
+    color: white;
+}
+.home-link {
+    display: flex;
+    align-items: center;
+    font-family: 'Red Hat Display', serif;
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-left: 20px;
+}
+.home-link img {
+    height: 100%;
+    max-height: 60px;
+    margin-right: 10px;
+}
+nav {
+    /* put some space between nav and end of page */
+    margin-right: 20px;
+    height: 100%;
+}
+nav > ul {
+    /* remove bullet points */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    /* ensure links are next to each other */
+    display: flex;
+    gap: 2rem;
+    height: 100%;
+    align-items: center;
+}
+.hero-image {
+    margin: 0;
+    height: 100vh;
+    /* establish hero image styling */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* center text */
+    display: flex;
+    align-items: center;
+    /* image can grow and shrink but not go past certain height */
+    max-height: 500px;
+    background-color: rgba(0, 0, 0, 0.5);
+    background-blend-mode: darken;
+    background-image: url('../images/hands_together.jpg');
+}
+
+.hero-text {
+    margin: auto;
+    text-align: center;
+    max-width: 90%;
+    color: white;
+}
+.hero-text h1 {
+    font-size: 4em;
+    margin: 0;
+}
+
+main > h2, main > p{
+    margin-left: 50px;
+    margin-right: 50px;
+}
+h2 {
+    color: #33607E;
+    font-size: 1.8em;
+    font-weight: bold;
+    margin-top: 50px;
+}
+
+.container {
+    display: flex;
+    gap: 5%;
+    justify-content: center;
+    background-color: #73B0C2;
+    padding: 20px; 
+}
+.container .info {
+    flex: 1;
+    padding: 10px 20px 10px 20px;
+    max-width: 300px;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 6px 6px rgb(0 0 0 / 20%), 0 0 20px rgb(0 0 0 / 20%);
+}
+.container .info h3 {
+    color: #315C77;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.container .info p {
+    margin-top: 0;
+}
+
+
+.learn {
+    display: flex;
+    justify-content: center;
+    gap: 10%;
+    width: 80%;
+    max-width: 900px;
+    margin: auto;
+}
+.learn div {
+    background-color: #73B0C2;
+    height: 400px;
+    padding: 20px;
+    border-radius: 20px;
+    position: relative;
+    max-width: 400px;
+    font-size: 1.2em;
+}
+.learn img {
+    border-radius: 20px;
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+.learn a {
+    position: absolute;
+    color: #315C77;
+    font-size: 1.1em;
+    background-color: white;
+    border-radius: 20px;
+    border: 2px solid #315C77;
+    padding: 10px;
+    width: 100px;
+    transition: .5s;
+    text-align: center;
+
+    /* center button */
+    left: 0; 
+    right: 0; 
+    bottom: 20px;
+    margin-inline: auto; 
+}
+.learn a:hover {
+    box-shadow: 0px 2px 5px #315C77;
+    transform: translateY(-2px);
+}
+
+.resources {
+    display: flex;
+    gap: 50px;
+    width: 80%;
+    margin: auto;
+}
+.resources img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+.resources h2 {
+    margin: 0;
+}
+.resources a {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border: 5px solid #73B0C2;
+    border-radius: 20px;
+    font-size: 1.5em;
+    transition: .5s ease-in-out;
+    background-color: white;
+    width: 100%;
+}
+.resources a:hover {
+    box-shadow: 5px 5px 5px #315C77;
+    transform: translateY(-5px);
+    background-color: white;
+}
+
+footer {
+    background-color: #315C77;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    padding: 50px;
+}
+footer .icons {
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+    font-size: 2em;
+    margin-bottom: 50px;
+}
+
+
+@media screen and (max-width: 700px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+    .textbox {
+        margin: auto;
+        width: 70%;
+        margin-bottom: 20px;
+    }
+    
+    .learn {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .resources {
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+    }
+    .resources img {
+        height: 100px;
+    }
+}
+
+
+/* learn.html */
+
+main #form {
+    /* center image */
+    display: flex;
+    margin: auto;
+}
+
+/* The flip card container */
+.flip-card {
+    background-color: transparent;
+    width: 280px;
+    height: 280px;
+    perspective: 1000px; /* Remove this if you don't want the 3D effect */
+}
+.flip-card img {
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+}
+/* This container is needed to position the front and back side */
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+.flip-card-inner.flipped {
+    transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; /* Safari */
+    backface-visibility: hidden;
+    border-radius: 20px;
+    border: 5px solid #BEE1ED;
+    background-color: white;
+    box-sizing: border-box;
+    color: black;
+}
+
+/* Style the back side */
+.flip-card-back {
+    transform: rotateY(180deg);
+}
+
+.sounds {
+    display: flex;
+    align-items: center;
+    margin: auto;
+    width: 90%;
+    flex-wrap: wrap;  
+}
+.sounds div {
+    background-color: #315C77;
+    color: white;
+    font-weight: bold;
+    padding: 0;
+    border-radius: 10px;
+    width: 50px;
+    height: 50px;
+    margin: auto;
+}
+.flip-card-back strong {
+    color: #315C77;
+}
+.flip-card-back h3 {
+    color: #315C77;
+    font-size: 1.1em;
+}
