@@ -6,6 +6,7 @@
     /*min-height: 250px;*/
     border: 1px solid black;
     margin: auto;
+    margin-top: 10px;
     text-align: center;
     padding-bottom: 30px;
     position: relative;
@@ -161,7 +162,7 @@ textarea:focus {
     height: 25px;
     width: 25px;
     border: 1px solid black;
-    background-color: #BEE1ED;
+    background-color: #f0f0f0;
     transition: background-color 0.2s ease;
     box-sizing: border-box;
 }
@@ -170,12 +171,12 @@ textarea:focus {
 }
 /* On mouse-over, add a grey background color */
 .checkbox-container:hover input ~ .checkmark {
-    background-color: #82BFD1;
+    background-color: #e0e0e0;
 }
 
 /* When the checkbox is checked, add a blue background */
 .checkbox-container input:checked ~ .checkmark {
-    background-color: #82BFD1;
+    background-color: #8b8b8b;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
