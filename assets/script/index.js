@@ -116,9 +116,7 @@ fetch('en_US copy.json')
             }
             unknownGroup.push(unknown);
             unknownIndicesGroup.push(unknownIndices);
-            if (unknownOptions.length != 0) {
-                unknownOptionsGroup.push(unknownOptions);
-            }
+            unknownOptionsGroup.push(unknownOptions);
 
             ipaList.push(sentenceIPA);
             return true;
@@ -128,7 +126,7 @@ fetch('en_US copy.json')
             return;
         }
         // Some pronunciations not known, need user input
-        if (unknownOptionsGroup.length != 0) {
+        if (unknownOptionsGroup.some(group => group.length > 0)) {
             let submitButton = document.getElementById("submit");
             submitButton.innerHTML = "Change Pronunciation";
             submitButton.onclick = openForm;
@@ -176,8 +174,8 @@ function processInput() {
     document.getElementById("resultCued").innerHTML = cueNotation.join(" ");
     //convertToCue(completeIPA);
 
-    // Start animation
-    animation_index = 0;
+    // End previous animation and start new one
+    restart();
     play();
 }
 

@@ -36,7 +36,7 @@ function displayForm(unknownGroup, cleanInput, unknownIndicesGroup, unknownOptio
             buttonGroup.classList.add("buttonGroup");
     
             let unknownOptions = unknownOptionsGroup[groupIndex];
-            unknownOptions[index].forEach((ipa, buttonIndex) => {
+            (unknownOptions[index] || []).forEach((ipa, buttonIndex) => {
                 let ipaButton = document.createElement("button");
                 ipaButton.type = "button";
                 ipaButton.classList.add("ipaButton");
